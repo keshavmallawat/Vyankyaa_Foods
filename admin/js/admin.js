@@ -106,13 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// Auth Guard
+// Auth Guard - Disabled for direct access
 function checkAuth() {
-  if (!sessionStorage.getItem('vf_auth') && !window.location.pathname.endsWith('/login.html')) {
-    window.location.href = 'login.html';
-    return false;
-  }
-  return true;
+  return true; // Always allow access
 }
 
 // Navigation

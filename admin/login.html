@@ -45,47 +45,12 @@
   <script src="js/data.js"></script>
   <script src="js/admin.js"></script>
   <script>
-    // Override auth check for login page
+    // Auto-login for direct access
     document.addEventListener('DOMContentLoaded', function() {
-      // Check if already logged in
-      if (sessionStorage.getItem('vf_auth')) {
-        window.location.href = 'index.html';
-        return;
-      }
-      
-      // Initialize SVG icons
-      initSVGIcons();
-      
-      // Login form handler
-      document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const errorEl = document.getElementById('error-message');
-        
-        // Get credentials from settings
-        const settings = VF.getSettings();
-        
-        if (username === settings.username && password === settings.password) {
-          // Successful login
-          sessionStorage.setItem('vf_auth', 'true');
-          VF.log('Admin login successful');
-          window.location.href = 'index.html';
-        } else {
-          // Show error
-          errorEl.textContent = 'Invalid username or password';
-          errorEl.style.display = 'block';
-          
-          // Clear password field
-          document.getElementById('password').value = '';
-          
-          // Hide error after 3 seconds
-          setTimeout(() => {
-            errorEl.style.display = 'none';
-          }, 3000);
-        }
-      });
+      // Auto-set auth and redirect to dashboard
+      sessionStorage.setItem('vf_auth', 'true');
+      VF.log('Auto-login for direct admin access');
+      window.location.href = 'index.html';
     });
   </script>
 </body>
