@@ -6,7 +6,8 @@
   <title>Dashboard — Vyankyaa Foods Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/admin.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="css/icons.css">
+  <script src="js/svg-icons.js"></script>
 </head>
 <body>
   <!-- Sidebar -->
@@ -23,39 +24,39 @@
     
     <nav class="sidebar-nav">
       <a href="index.html" class="sidebar-nav-item">
-        <i data-lucide="layout-dashboard"></i>
+        <span data-svg-icon="layoutDashboard"></span>
         Dashboard
       </a>
       <a href="products.html" class="sidebar-nav-item">
-        <i data-lucide="package"></i>
+        <span data-svg-icon="package"></span>
         Products
       </a>
       <a href="enquiries.html" class="sidebar-nav-item">
-        <i data-lucide="mail"></i>
+        <span data-svg-icon="mail"></span>
         Enquiries
         <span class="sidebar-nav-badge" id="enquiryBadge">0</span>
       </a>
       <a href="categories.html" class="sidebar-nav-item">
-        <i data-lucide="layout-grid"></i>
+        <span data-svg-icon="layoutGrid"></span>
         Categories
       </a>
       <a href="certificates.html" class="sidebar-nav-item">
-        <i data-lucide="badge-check"></i>
+        <span data-svg-icon="certificate"></span>
         Certificates
       </a>
       <a href="settings.html" class="sidebar-nav-item">
-        <i data-lucide="settings"></i>
+        <span data-svg-icon="settings"></span>
         Settings
       </a>
     </nav>
     
     <div class="sidebar-bottom">
       <a href="../index.html" target="_blank" class="sidebar-nav-item">
-        <i data-lucide="external-link"></i>
+        <span data-svg-icon="external"></span>
         View Website
       </a>
       <a href="#" onclick="logout()" class="sidebar-nav-item">
-        <i data-lucide="log-out"></i>
+        <span data-svg-icon="logout"></span>
         Logout
       </a>
     </div>
@@ -67,12 +68,12 @@
     
     <div class="topbar-actions">
       <div class="topbar-search">
-        <i data-lucide="search" class="topbar-search-icon"></i>
+        <span data-svg-icon="search" class="topbar-search-icon"></span>
         <input type="text" placeholder="Search..." id="globalSearch">
       </div>
       
       <div style="position: relative;">
-        <i data-lucide="bell" style="cursor: none; color: var(--light-text);"></i>
+        <span data-svg-icon="bell" style="cursor: none; color: var(--light-text);"></span>
         <span class="sidebar-nav-badge" style="position: absolute; top: -8px; right: -8px;" id="notificationBadge">0</span>
       </div>
       
@@ -153,19 +154,19 @@
         
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
           <button class="btn btn-primary" onclick="window.location.href='products.html'">
-            <i data-lucide="plus"></i>
+            <span data-svg-icon="plus"></span>
             Add Product
           </button>
           <button class="btn btn-primary" onclick="window.location.href='enquiries.html'">
-            <i data-lucide="mail"></i>
+            <span data-svg-icon="mail"></span>
             View Enquiries
           </button>
           <button class="btn btn-primary" onclick="window.location.href='categories.html'">
-            <i data-lucide="plus"></i>
+            <span data-svg-icon="plus"></span>
             Add Category
           </button>
           <button class="btn btn-primary" onclick="window.location.href='settings.html'">
-            <i data-lucide="settings"></i>
+            <span data-svg-icon="settings"></span>
             Settings
           </button>
         </div>
@@ -233,7 +234,7 @@
               <td><span class="badge badge-${enquiry.status}">${enquiry.status}</span></td>
               <td>
                 <button class="btn btn-sm btn-outline" onclick="window.location.href='enquiries.html'">
-                  <i data-lucide="eye"></i>
+                  <span data-svg-icon="eye"></span>
                   View
                 </button>
               </td>
@@ -262,7 +263,7 @@
                   </span>
                 </div>
                 <button class="btn btn-sm btn-outline" onclick="window.location.href='products.html'">
-                  <i data-lucide="edit-2"></i>
+                  <span data-svg-icon="edit"></span>
                   Edit
                 </button>
               </div>
@@ -278,15 +279,15 @@
         } else {
           activityLogEl.innerHTML = recentActivity.map(log => `
             <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--sand);">
-              <i data-lucide="clock" style="width: 16px; height: 16px; color: var(--light-text);"></i>
+              <span data-svg-icon="clock" style="width: 16px; height: 16px; color: var(--light-text);"></span>
               <span style="color: var(--light-text); font-size: 12px; min-width: 120px;">${log.ts}</span>
               <span>${log.action}</span>
             </div>
           `).join('');
         }
         
-        // Re-initialize Lucide icons
-        lucide.createIcons();
+        // Re-initialize SVG icons
+        initSVGIcons();
       }
       
       // Global search
