@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>About Us — Vyankyaa Foods</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* STORY SECTION */
+.story {
+  padding: 100px 60px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.story-img {
+  position: relative; height: 580px;
+}
+.story-img-bg {
+  position: absolute; bottom:0; left:0; right:24px; top:24px;
+  background: var(--sand); border-radius: 4px;
+}
+.story-img-main {
+  position: absolute; top:0; left:24px; right:0; bottom:24px;
+  overflow: hidden; border-radius: 4px;
+  box-shadow: 0 24px 80px rgba(44,26,14,0.18);
+}
+.story-img-main img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 6s ease; }
+.story-img-main:hover img { transform:scale(1.04); }
+.story-img-float {
+  position: absolute; bottom:-20px; right:-20px;
+  background: var(--warm-white); padding: 20px 24px; border-radius: 4px;
+  box-shadow: 0 8px 40px rgba(44,26,14,0.12); z-index:2; min-width:160px;
+}
+.story-img-float .val {
+  font-family: 'Cormorant Garamond'; font-size: 40px; font-weight:300;
+  color: var(--gold); line-height:1; display:block;
+}
+.story-img-float .lbl {
+  font-size: 10px; letter-spacing:2px; text-transform:uppercase;
+  color: var(--light-text); display:block; margin-top:4px;
+}
+.story-content h2 {
+  font-family: 'Cormorant Garamond'; font-size:clamp(32px,3.6vw,52px);
+  font-weight:300; line-height:1.15; margin-bottom:22px;
+}
+.story-content h2 em { font-style:italic; color:var(--clay); }
+.story-content p { font-size:15px; line-height:1.85; color:var(--light-text); margin-bottom:18px; }
+
+/* FOUNDER */
+.founder {
+  padding: 80px 60px;
+  background: var(--earth);
+  display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: center;
+}
+.founder-img {
+  width: 100%; aspect-ratio: 3/4; border-radius: 4px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.founder-img img { width:100%; height:100%; object-fit:cover; display:block; }
+.founder-content .section-label { color: rgba(250,247,242,0.45); }
+.founder-content .section-label::before { background: rgba(250,247,242,0.3); }
+.founder-content h2 {
+  font-family:'Cormorant Garamond'; font-size:clamp(32px,3.6vw,52px);
+  font-weight:300; color:var(--cream); line-height:1.1; margin-bottom:20px;
+}
+.founder-content h2 em { font-style:italic; color:var(--gold); }
+.founder-content p { font-size:15px; line-height:1.85; color:rgba(250,247,242,0.7); margin-bottom:16px; }
+.founder-quote {
+  margin-top:32px; padding:28px 32px;
+  border-left:3px solid var(--gold);
+  background:rgba(250,247,242,0.06); border-radius:0 4px 4px 0;
+}
+.founder-quote blockquote {
+  font-family:'Cormorant Garamond'; font-size:22px; font-weight:300;
+  font-style:italic; color:var(--cream); line-height:1.5; margin-bottom:14px;
+}
+.founder-quote cite { font-size:13px; color:var(--gold); letter-spacing:1px; font-style:normal; }
+
+/* STATS STRIP */
+.stats-strip {
+  padding: 60px 60px;
+  background: var(--warm-white);
+  display: grid; grid-template-columns: repeat(4,1fr); gap:0;
+}
+.stats-row { display:contents; }
+.stat-block {
+  text-align:center; padding:40px 20px;
+  border-right:1px solid var(--sand);
+}
+.stat-block:last-child { border-right:none; }
+.stat-block .val {
+  font-family:'Cormorant Garamond'; font-size:56px; font-weight:300;
+  color:var(--gold); line-height:1; display:block;
+}
+.stat-block .lbl {
+  font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--light-text); margin-top:8px; display:block;
+}
+
+/* MISSION */
+.mission { padding:100px 60px; }
+.mission-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:56px; }
+.mission-card {
+  padding:40px 32px; border-radius:4px;
+  border:1px solid var(--sand); background:var(--warm-white);
+  transition:transform 0.4s, box-shadow 0.4s;
+}
+.mission-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(44,26,14,0.09); }
+.mission-icon {
+  width:56px; height:56px; border-radius:50%;
+  background:var(--sand); display:flex; align-items:center; justify-content:center;
+  font-size:24px; margin-bottom:24px;
+  transition: background 0.3s;
+}
+.mission-card:hover .mission-icon { background:var(--gold); }
+.mission-card h4 { font-family:'Cormorant Garamond'; font-size:24px; font-weight:400; margin-bottom:14px; }
+.mission-card p { font-size:14px; line-height:1.75; color:var(--light-text); }
+
+/* GALLERY */
+.gallery {
+  padding:0 60px 100px;
+  display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:280px 280px; gap:10px;
+}
+.gallery-item { overflow:hidden; border-radius:4px; position:relative; cursor:none; }
+.gallery-item:first-child { grid-row:span 2; }
+.gallery-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.7s ease; }
+.gallery-item:hover img { transform:scale(1.06); }
+.gallery-item .overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(44,26,14,0.55) 0%, transparent 55%);
+  opacity:0; transition:opacity 0.4s; display:flex; align-items:flex-end; padding:18px 20px;
+}
+.gallery-item:hover .overlay { opacity:1; }
+.overlay-text { font-family:'Cormorant Garamond'; font-size:17px; color:var(--cream); font-style:italic; }
+
+@media (max-width:860px) {
+  .story { grid-template-columns:1fr; padding:70px 20px; gap:44px; }
+  .story-img { height:320px; }
+  .founder { grid-template-columns:1fr; padding:70px 20px; gap:32px; }
+  .founder-img { aspect-ratio:4/3; max-height:280px; }
+  .stats-strip { grid-template-columns:1fr 1fr; padding:40px 20px; }
+  .stat-block { border-right:none; border-bottom:1px solid var(--sand); }
+  .stat-block:last-child { border-bottom:none; }
+  .mission { padding:70px 20px; }
+  .mission-grid { grid-template-columns:1fr; }
+  .gallery { padding:0 20px 70px; grid-template-columns:1fr 1fr; grid-template-rows:auto; }
+  .gallery-item:first-child { grid-row:auto; grid-column:span 2; height:220px; }
+  .gallery-item { height:170px; }
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div id="nav-placeholder"></div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-label" style="opacity:0;animation:fadeUp 0.7s 0.2s ease forwards;">Our Story</div>
+    <h1>Built on <em>Soil,</em> Scaled for the World</h1>
+    <p>From a small town in Maharashtra to export partnerships across 50+ nations — the Vyankyaa Foods journey is one of purpose, passion, and premium quality.</p>
+  </div>
+  <div class="page-hero-img">
+    <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=900&q=80" alt="Fields"/>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Our Story</span><span class="marquee-item">Farm Partnerships</span><span class="marquee-item">Global Reach</span><span class="marquee-item">Quality First</span><span class="marquee-item">Export Excellence</span><span class="marquee-item">15+ Years</span><span class="marquee-item">Our Story</span><span class="marquee-item">Farm Partnerships</span><span class="marquee-item">Global Reach</span><span class="marquee-item">Quality First</span><span class="marquee-item">Export Excellence</span><span class="marquee-item">15+ Years</span>
+  </div>
+</div>
+
+<!-- STORY -->
+<section class="story">
+  <div class="story-img reveal">
+    <div class="story-img-bg"></div>
+    <div class="story-img-main">
+      <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&q=80" alt="Farming"/>
+    </div>
+    <div class="story-img-float">
+      <span class="val">2009</span>
+      <span class="lbl">Year Founded</span>
+    </div>
+  </div>
+  <div class="story-content">
+    <div class="section-label reveal">Our Beginning</div>
+    <h2 class="reveal reveal-delay-1">From <em>Degloor</em> to the World</h2>
+    <p class="reveal reveal-delay-2">Vyankyaa Foods was born in Degloor, Dist. Nanded — a region where agriculture is not just livelihood, it's identity. Founder Baalaje V. Kadaam started with a simple but powerful belief: India's farmers grow some of the world's finest produce, and the world deserves to taste it.</p>
+    <p class="reveal reveal-delay-2">What began as a local trading venture evolved into a fully-fledged export enterprise, built on trust, transparency, and an unwavering commitment to quality. Today, Vyankyaa Foods ships to over 50 countries across the Middle East, Europe, Africa, and Southeast Asia.</p>
+    <p class="reveal reveal-delay-3">Every export represents a partnership — between us, our farmers, and our global buyers. We don't just move goods; we move the story of Indian agriculture forward.</p>
+    <div style="margin-top:32px;" class="reveal reveal-delay-3">
+      <a href="contact.html" class="btn-primary"><span>Work With Us</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder">
+  <div class="founder-img reveal">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Baalaje V. Kadaam"/>
+  </div>
+  <div class="founder-content">
+    <div class="section-label reveal">The Founder</div>
+    <h2 class="reveal reveal-delay-1">Baalaje V. <em>Kadaam</em></h2>
+    <p class="reveal reveal-delay-2">An export mentor and global trade coach, Baalaje V. Kadaam has dedicated his career to connecting Indian agriculture with international markets. With deep roots in Maharashtra's farming communities and a sharp understanding of global trade dynamics, he built Vyankyaa Foods into a trusted name among importers and distributors worldwide.</p>
+    <p class="reveal reveal-delay-2">A passionate advocate for farmers, Baalaje works directly with over 200 agricultural partners to ensure fair pricing, sustainable practices, and consistently premium output — season after season.</p>
+    <div class="founder-quote reveal reveal-delay-3">
+      <blockquote>"Exporting India's Best Flavors to the World — that's not just our tagline, it's our daily commitment."</blockquote>
+      <cite>— Baalaje V. Kadaam, Founder &amp; Export Mentor</cite>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-row">
+    <div class="stat-block reveal"><span class="val">50+</span><span class="lbl">Countries Served</span></div>
+    <div class="stat-block reveal reveal-delay-1"><span class="val">200+</span><span class="lbl">Farmer Partners</span></div>
+    <div class="stat-block reveal reveal-delay-2"><span class="val">15K+</span><span class="lbl">Tons Exported</span></div>
+    <div class="stat-block reveal reveal-delay-3"><span class="val">8+</span><span class="lbl">Product Lines</span></div>
+  </div>
+</div>
+
+<!-- MISSION -->
+<section class="mission">
+  <div class="section-label reveal">What We Stand For</div>
+  <h2 class="reveal reveal-delay-1" style="font-family:'Cormorant Garamond';font-size:clamp(36px,4.5vw,64px);font-weight:300;line-height:1;">Our <em style="font-style:italic;color:var(--clay);">Mission &amp; Values</em></h2>
+  <div class="mission-grid">
+    <div class="mission-card reveal">
+      <div class="mission-icon">🌱</div>
+      <h4>Farm First</h4>
+      <p>We begin and end with the farmer. Every product is sourced directly from verified agricultural partners, ensuring fair trade and the freshest possible quality.</p>
+    </div>
+    <div class="mission-card reveal reveal-delay-1">
+      <div class="mission-icon">🔬</div>
+      <h4>Quality Always</h4>
+      <p>APEDA &amp; FSSAI certified across our product range. Every batch is tested, graded, and inspected before it reaches any port of export.</p>
+    </div>
+    <div class="mission-card reveal reveal-delay-2">
+      <div class="mission-icon">🌍</div>
+      <h4>Global Vision</h4>
+      <p>We see Indian agriculture without borders. Our mission is to make the world's kitchens familiar with the unmatched flavours of the Indian subcontinent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="gallery">
+  <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=900&q=80" alt="Farm"/><div class="overlay"><span class="overlay-text">Where it begins</span></div></div>
+  <div class="gallery-item reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1601493700631-2851bdaa9113?w=600&q=80" alt="Harvest"/><div class="overlay"><span class="overlay-text">Harvest season</span></div></div>
+  <div class="gallery-item reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1595475207225-428b62bda831?w=600&q=80" alt="Spices"/><div class="overlay"><span class="overlay-text">Nature's palette</span></div></div>
+  <div class="gallery-item reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1543353071-10c8ba85a904?w=600&q=80" alt="Packing"/><div class="overlay"><span class="overlay-text">Ready to travel</span></div></div>
+  <div class="gallery-item reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1620706857370-e1b9770e8bb1?w=600&q=80" alt="Global"/><div class="overlay"><span class="overlay-text">World-bound</span></div></div>
+</div>
+
+<div id="footer-placeholder"></div>
+<script src="js/main.js"></script>
+<script>
+  fetch('components/nav.html').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('mainNav');if(n){const o=()=>n.classList.toggle('scrolled',window.scrollY>50);window.addEventListener('scroll',o,{passive:true});o();}document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='about.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
+  fetch('components/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
+</script>
+</body>
+</html>

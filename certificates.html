@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Certificates — Vyankyaa Foods</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+/* CERT GRID */
+.certs-section { padding:100px 60px; }
+.certs-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:28px; margin-top:56px;
+}
+.cert-card {
+  border-radius:4px; border:1px solid var(--sand);
+  padding:40px; background:var(--warm-white);
+  display:flex; gap:28px; align-items:flex-start;
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s;
+  cursor:none;
+}
+.cert-card:hover { transform:translateY(-6px); box-shadow:0 24px 60px rgba(44,26,14,0.1); }
+.cert-icon-wrap {
+  width:72px; height:72px; flex-shrink:0; border-radius:4px;
+  background:var(--sand); display:flex; align-items:center; justify-content:center;
+  font-size:32px; transition:background 0.3s;
+}
+
+.cert-icon-wrap i { width: 32px; height: 32px; font-size: 32px; color: var(--earth); }
+.cert-card:hover .cert-icon-wrap { background:var(--gold); }
+.cert-card:hover .cert-icon-wrap i { color: var(--cream); }
+.cert-name {
+  font-family:'Cormorant Garamond'; font-size:26px; font-weight:400;
+  margin-bottom:10px; line-height:1.15;
+}
+.cert-authority {
+  font-size:11px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--sage); margin-bottom:12px; display:block;
+}
+.cert-desc { font-size:14px; line-height:1.75; color:var(--light-text); }
+.cert-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  margin-top:16px; padding:5px 12px; border-radius:100px;
+  background:rgba(107,124,92,0.12); color:var(--sage);
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+}
+.cert-badge::before {
+  content:''; width:6px; height:6px; background:var(--sage); border-radius:50%;
+}
+
+/* TRUST STRIP */
+.trust-strip {
+  background:var(--earth); padding:80px 60px;
+  display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+}
+.trust-strip h2 { font-family:'Cormorant Garamond'; font-size:clamp(32px,3.6vw,52px); font-weight:300; color:var(--cream); line-height:1.1; }
+.trust-strip h2 em { font-style:italic; color:var(--gold); }
+.trust-strip p { font-size:15px; color:rgba(250,247,242,0.7); line-height:1.8; margin-top:16px; }
+.trust-points { display:flex; flex-direction:column; gap:16px; }
+.trust-point {
+  display:flex; gap:16px; align-items:center;
+  padding:18px 22px; background:rgba(250,247,242,0.07); border-radius:4px;
+  border-left:3px solid var(--gold);
+}
+.trust-point-icon { font-size:20px; flex-shrink:0; }
+.trust-point-text { font-size:14px; color:rgba(250,247,242,0.8); line-height:1.5; }
+.trust-point-text strong { color:var(--cream); font-weight:500; display:block; margin-bottom:2px; }
+
+/* COMPLIANCE */
+.compliance { padding:100px 60px; background:var(--warm-white); }
+.compliance-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:52px; }
+.comp-card {
+  padding:32px 24px; border-radius:4px; background:var(--cream);
+  text-align:center; border:1px solid var(--sand);
+  transition:transform 0.4s, box-shadow 0.4s;
+}
+.comp-card:hover { transform:translateY(-5px); box-shadow:0 20px 50px rgba(44,26,14,0.09); }
+.comp-icon {
+  width:48px; height:48px; margin:0 auto 16px;
+  background:var(--sand); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px;
+}
+
+.comp-icon i { width: 24px; height: 24px; font-size: 24px; color: var(--earth); }
+.comp-title { font-family:'Cormorant Garamond'; font-size:20px; font-weight:400; margin-bottom:8px; }
+.comp-sub { font-size:12px; color:var(--light-text); line-height:1.6; }
+
+/* PROCESS QUALITY */
+.quality-process { padding:100px 60px; }
+.qp-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:52px; }
+.qp-step { position:relative; }
+.qp-num {
+  font-family:'Bebas Neue'; font-size:72px; color:var(--sand);
+  line-height:1; margin-bottom:-12px; display:block;
+}
+.qp-step h4 { font-family:'Cormorant Garamond'; font-size:24px; font-weight:400; margin-bottom:12px; }
+.qp-step p { font-size:14px; color:var(--light-text); line-height:1.75; }
+
+@media (max-width:860px) {
+  .certs-section { padding:70px 20px; }
+  .certs-grid { grid-template-columns:1fr; }
+  .cert-card { flex-direction:column; gap:20px; padding:28px; }
+  .trust-strip { grid-template-columns:1fr; padding:60px 20px; }
+  .compliance { padding:70px 20px; }
+  .compliance-grid { grid-template-columns:1fr 1fr; }
+  .quality-process { padding:70px 20px; }
+  .qp-grid { grid-template-columns:1fr; gap:24px; }
+}
+@media (max-width:480px) {
+  .compliance-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div id="nav-placeholder"></div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-label" style="opacity:0;animation:fadeUp 0.7s 0.2s ease forwards;">Quality Assurance</div>
+    <h1>Our <em>Certificates</em> &amp; Standards</h1>
+    <p>Every shipment from Vyankyaa Foods is backed by internationally recognised certifications — because quality isn't just a promise, it's a paper trail.</p>
+  </div>
+  <div class="page-hero-img">
+    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80" alt="Certificates"/>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">APEDA Certified</span><span class="marquee-item">FSSAI Licensed</span><span class="marquee-item">GST Compliant</span><span class="marquee-item">Export House</span><span class="marquee-item">Phytosanitary</span><span class="marquee-item">Quality Assured</span><span class="marquee-item">APEDA Certified</span><span class="marquee-item">FSSAI Licensed</span><span class="marquee-item">GST Compliant</span><span class="marquee-item">Export House</span><span class="marquee-item">Phytosanitary</span><span class="marquee-item">Quality Assured</span>
+  </div>
+</div>
+
+<!-- CERT CARDS -->
+<section class="certs-section">
+  <div class="section-label reveal">Our Credentials</div>
+  <h2 class="reveal reveal-delay-1" style="font-family:'Cormorant Garamond';font-size:clamp(36px,4.5vw,64px);font-weight:300;line-height:1;">Certified for <em>Global</em> Export</h2>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-icon-wrap"><i class="bx bx-award"></i></div>
+      <div class="cert-body">
+        <div class="cert-name">APEDA Registration</div>
+        <span class="cert-authority">Agricultural &amp; Processed Food Products Export Development Authority</span>
+        <p class="cert-desc">Vyankyaa Foods is a registered exporter under APEDA, authorising us to export scheduled agricultural and processed food products from India to global markets.</p>
+        <div class="cert-badge">Govt. of India — Ministry of Commerce</div>
+      </div>
+    </div>
+    <div class="cert-card reveal reveal-delay-1">
+      <div class="cert-icon-wrap"><i class="bx bx-shield"></i></div>
+      <div class="cert-body">
+        <div class="cert-name">FSSAI License</div>
+        <span class="cert-authority">Food Safety and Standards Authority of India</span>
+        <p class="cert-desc">All products are processed, packed, and stored in compliance with FSSAI food safety standards — ensuring hygienic, safe, and traceable supply chains for every consignment.</p>
+        <div class="cert-badge">Central License — Food Safety</div>
+      </div>
+    </div>
+    <div class="cert-card reveal reveal-delay-1">
+      <div class="cert-icon-wrap"><i class="bx bx-clipboard"></i></div>
+      <div class="cert-body">
+        <div class="cert-name">GST Registration</div>
+        <span class="cert-authority">Goods &amp; Services Tax — Government of India</span>
+        <p class="cert-desc">Fully GST-compliant business entity. All invoices, tax documents, and export filings are maintained in accordance with Indian tax law for complete transactional transparency.</p>
+        <div class="cert-badge">Tax Compliant Entity</div>
+      </div>
+    </div>
+    <div class="cert-card reveal reveal-delay-2">
+      <div class="cert-icon-wrap"><i class="bx bx-leaf"></i></div>
+      <div class="cert-body">
+        <div class="cert-name">Phytosanitary Certificate</div>
+        <span class="cert-authority">Plant Quarantine Authority of India</span>
+        <p class="cert-desc">All fresh produce exports are accompanied by valid Phytosanitary Certificates issued by the Plant Quarantine Authority — a mandatory requirement for live plant material export to most countries.</p>
+        <div class="cert-badge">Issued Per Shipment</div>
+      </div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-icon-wrap"><i class="bx bx-ship"></i></div>
+      <div class="cert-body">
+        <div class="cert-name">Certificate of Origin</div>
+        <span class="cert-authority">Export Inspection Council / Chamber of Commerce</span>
+        <p class="cert-desc">Every consignment is accompanied by a Certificate of Origin to facilitate customs clearance and preferential trade terms under applicable bilateral trade agreements.</p>
+        <div class="cert-badge">Per Consignment</div>
+      </div>
+    </div>
+    <div class="cert-card reveal reveal-delay-1">
+      <div class="cert-icon-wrap"><i class="bx bx-flask"></i></div>
+      <div class="cert-body">
+        <div class="cert-name">Lab Analysis Reports</div>
+        <span class="cert-authority">NABL Accredited Laboratories</span>
+        <p class="cert-desc">On-request lab analysis for pesticide residue, heavy metals, microbial count, curcumin content, brix levels, and other quality parameters — available for each product batch.</p>
+        <div class="cert-badge">Available on Request</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div>
+    <div class="section-label" style="color:rgba(250,247,242,0.45);">Why It Matters</div>
+    <h2>Documentation That <em>Opens Doors</em></h2>
+    <p>Global buyers require confidence — not just in the product, but in the paperwork. Our impeccable documentation record means zero customs delays and complete peace of mind.</p>
+  </div>
+  <div class="trust-points">
+    <div class="trust-point reveal">
+      <div class="trust-point-icon">✅</div>
+      <div class="trust-point-text"><strong>Zero-Delay Customs Clearance</strong>All certificates prepared and submitted ahead of shipment schedule.</div>
+    </div>
+    <div class="trust-point reveal reveal-delay-1">
+      <div class="trust-point-icon">📦</div>
+      <div class="trust-point-text"><strong>Shipment-Level Documentation</strong>Every consignment gets its own full documentation set — no blanket certificates.</div>
+    </div>
+    <div class="trust-point reveal reveal-delay-2">
+      <div class="trust-point-icon">🌍</div>
+      <div class="trust-point-text"><strong>50+ Country Accepted</strong>Our documentation is accepted across the Middle East, Europe, Africa, and Asia.</div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPLIANCE ICONS -->
+<section class="compliance">
+  <div class="section-label reveal">At a Glance</div>
+  <h2 class="reveal reveal-delay-1" style="font-family:'Cormorant Garamond';font-size:clamp(32px,4vw,58px);font-weight:300;line-height:1;">Full <em>Compliance,</em> Every Time</h2>
+  <div class="compliance-grid">
+    <div class="comp-card reveal"><span class="comp-icon"><i class="bx bx-award"></i></span><div class="comp-title">APEDA</div><div class="comp-sub">Registered Export House</div></div>
+    <div class="comp-card reveal reveal-delay-1"><span class="comp-icon"><i class="bx bx-shield"></i></span><div class="comp-title">FSSAI</div><div class="comp-sub">Central Food License</div></div>
+    <div class="comp-card reveal reveal-delay-2"><span class="comp-icon"><i class="bx bx-clipboard"></i></span><div class="comp-title">GST</div><div class="comp-sub">Tax Compliant Entity</div></div>
+    <div class="comp-card reveal reveal-delay-3"><span class="comp-icon"><i class="bx bx-leaf"></i></span><div class="comp-title">Phyto</div><div class="comp-sub">Per-Shipment Certified</div></div>
+  </div>
+</section>
+
+<!-- QUALITY PROCESS -->
+<section class="quality-process">
+  <div class="section-label reveal">Our QA Process</div>
+  <h2 class="reveal reveal-delay-1" style="font-family:'Cormorant Garamond';font-size:clamp(32px,4vw,58px);font-weight:300;line-height:1;">How We Maintain <em>Quality</em></h2>
+  <div class="qp-grid">
+    <div class="qp-step reveal">
+      <span class="qp-num">01</span>
+      <h4>Farm-Level Inspection</h4>
+      <p>Our agronomists visit partner farms during the growing season to monitor cultivation practices, pesticide usage, and early harvest quality indicators.</p>
+    </div>
+    <div class="qp-step reveal reveal-delay-1">
+      <span class="qp-num">02</span>
+      <h4>Grading &amp; Sorting</h4>
+      <p>Post-harvest produce undergoes stringent grading for size, colour, brix, and defect tolerance — only Grade A produce is cleared for export.</p>
+    </div>
+    <div class="qp-step reveal reveal-delay-2">
+      <span class="qp-num">03</span>
+      <h4>Lab Testing</h4>
+      <p>Batches are tested at NABL-accredited laboratories for pesticide residue, microbial load, and product-specific quality parameters before packing.</p>
+    </div>
+    <div class="qp-step reveal">
+      <span class="qp-num">04</span>
+      <h4>Pre-Shipment Inspection</h4>
+      <p>A final inspection is conducted at the packhouse before loading. Documentation is cross-checked with actual cargo for 100% compliance.</p>
+    </div>
+    <div class="qp-step reveal reveal-delay-1">
+      <span class="qp-num">05</span>
+      <h4>Cold Chain Management</h4>
+      <p>Temperature-controlled packaging, pre-cooling, and reefer containers ensure product integrity from packhouse to destination port.</p>
+    </div>
+    <div class="qp-step reveal reveal-delay-2">
+      <span class="qp-num">06</span>
+      <h4>Post-Arrival Support</h4>
+      <p>We stay in contact with buyers post-arrival. Any quality feedback is incorporated into our next-cycle protocols for continuous improvement.</p>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+<script src="js/main.js"></script>
+<script>
+  fetch('components/nav.html').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('mainNav');if(n){const o=()=>n.classList.toggle('scrolled',window.scrollY>50);window.addEventListener('scroll',o,{passive:true});o();}document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='certificates.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
+  fetch('components/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
+  
+  // Initialize Boxicons
+  boxicons.init();
+</script>
+</body>
+</html>
