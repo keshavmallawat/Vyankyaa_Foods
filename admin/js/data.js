@@ -329,7 +329,7 @@ window.VF = {
       website: 'https://www.vyankyaafoods.com',
       adminName: 'Baalaje V. Kadaam',
       username: 'admin',
-      password: 'vyankyaa2025',
+      password: 'admin123',
       heroTagline: 'India\'s Finest Flavours',
       heroSubtitle: 'Premium agricultural exports from the heartlands of Maharashtra',
       marqueeItems: 'Premium Grapes,Bhagwa Pomegranate,Organic Turmeric,Dehydrated Onions,Millet Flakes,Basmati Rice,Barley Flakes,Corn Flakes',
