@@ -42,7 +42,7 @@
       </a>
       <a href="certificates.html" class="sidebar-nav-item">
         <span data-svg-icon="certificate"></span>
-        Certificates
+        Certifications
       </a>
       <a href="settings.html" class="sidebar-nav-item">
         <span data-svg-icon="settings"></span>
@@ -73,7 +73,7 @@
       </div>
       
       <div style="position: relative;">
-        <span data-svg-icon="bell" style="cursor: none; color: var(--light-text);"></span>
+        <span data-svg-icon="bell" style="cursor: pointer; color: var(--light-text);"></span>
         <span class="sidebar-nav-badge" style="position: absolute; top: -8px; right: -8px;" id="notificationBadge">0</span>
       </div>
       
@@ -107,8 +107,8 @@
         </div>
         
         <div class="stat-card">
-          <div class="stat-number" id="totalCertificates">0</div>
-          <div class="stat-label">Certificates</div>
+          <div class="stat-number" id="totalCertifications">0</div>
+          <div class="stat-label">Certifications</div>
         </div>
       </div>
       
@@ -205,7 +205,7 @@
         document.getElementById('totalProducts').textContent = products.length;
         document.getElementById('newEnquiries').textContent = enquiries.filter(e => e.status === 'new').length;
         document.getElementById('totalCategories').textContent = categories.length;
-        document.getElementById('totalCertificates').textContent = certificates.length;
+        document.getElementById('totalCertifications').textContent = certificates.length;
         
         // Update badges
         const newCount = enquiries.filter(e => e.status === 'new').length;

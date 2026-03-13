@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificates — Vyankyaa Foods Admin</title>
+  <title>Certifications — Vyankyaa Foods Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/admin.css">
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -41,7 +41,7 @@
       </a>
       <a href="certificates.html" class="sidebar-nav-item">
         <i data-lucide="badge-check"></i>
-        Certificates
+        Certifications
       </a>
       <a href="settings.html" class="sidebar-nav-item">
         <i data-lucide="settings"></i>
@@ -63,7 +63,7 @@
   
   <!-- Topbar -->
   <header class="topbar">
-    <div class="topbar-title">Certificates</div>
+    <div class="topbar-title">Certifications</div>
     
     <div class="topbar-actions">
       <div class="topbar-search">
@@ -72,7 +72,7 @@
       </div>
       
       <div style="position: relative;">
-        <i data-lucide="bell" style="cursor: none; color: var(--light-text);"></i>
+        <i data-lucide="bell" style="cursor: pointer; color: var(--light-text);"></i>
         <span class="sidebar-nav-badge" style="position: absolute; top: -8px; right: -8px;" id="notificationBadge">0</span>
       </div>
       
@@ -85,7 +85,7 @@
     <div class="content-area">
       <div class="page-header">
         <div class="section-label">Compliance</div>
-        <h1 class="page-title">Certificates</h1>
+        <h1 class="page-title">Certifications</h1>
       </div>
       
       <!-- Toolbar -->
@@ -100,7 +100,7 @@
         </div>
       </div>
       
-      <!-- Certificates Grid -->
+      <!-- Certifications Grid -->
       <div id="certificatesGrid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
         <!-- Populated by JavaScript -->
       </div>
@@ -192,7 +192,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       if (!checkAuth()) return;
       
-      loadCertificates();
+      loadCertifications();
       setupEventListeners();
       updateBadges();
     });
@@ -214,11 +214,11 @@
       
       // Search
       document.getElementById('certificateSearch').addEventListener('input', function() {
-        loadCertificates(this.value);
+        loadCertifications(this.value);
       });
     }
     
-    function loadCertificates(searchQuery = '') {
+    function loadCertifications(searchQuery = '') {
       const certificates = VF.getAll('vf_certificates');
       
       const filtered = certificates.filter(certificate => {
@@ -369,7 +369,7 @@
       }
       
       closeCertificateModal();
-      loadCertificates();
+      loadCertifications();
     }
     
     function editCertificate(id) {
@@ -386,7 +386,7 @@
             VF.delete('vf_certificates', id);
             VF.log(`Certificate deleted: ${certificate.name}`);
             showToast('Certificate deleted successfully', 'success');
-            loadCertificates();
+            loadCertifications();
           }
         );
       }
@@ -397,7 +397,7 @@
       if (certificate) {
         VF.update('vf_certificates', id, { active: !certificate.active });
         VF.log(`Certificate status changed: ${certificate.name} - ${!certificate.active ? 'Active' : 'Inactive'}`);
-        loadCertificates();
+        loadCertifications();
       }
     }
     

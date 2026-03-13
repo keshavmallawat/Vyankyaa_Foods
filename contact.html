@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Contact Us — Vyankyaa Foods</title>
+<title>Contact — Vyankyaa Foods</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 <script src="https://unpkg.com/feather-icons"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"/>
 <style>
 /* CONTACT MAIN */
 .contact-main {
@@ -29,7 +30,7 @@
   background:var(--sand); display:flex; align-items:center; justify-content:center;
   font-size:20px; flex-shrink:0; line-height:1; margin-top:2px;
 }
-.info-icon i { width: 20px; height: 20px; font-size: 20px; color: var(--clay); }
+.info-icon i { width: 20px; height: 20px; font-size: 20px; color: var(--gold); }
 .info-text .label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--sage); margin-bottom:3px; display:block; }
 .info-text .value { font-size:14px; color:var(--earth); line-height:1.5; display:block; }
 .info-text a.value { text-decoration:none; color:var(--earth); transition:color 0.3s; }
@@ -55,7 +56,7 @@
   background:var(--warm-white); border:1px solid var(--sand);
   padding:13px 16px; border-radius:2px;
   font-family:'DM Sans',sans-serif; font-size:14px; color:var(--earth);
-  outline:none; transition:border-color 0.3s; cursor:none; width:100%;
+  outline:none; transition:border-color 0.3s; cursor:text; width:100%;
   -webkit-appearance:none; appearance:none;
 }
 .field textarea { resize:vertical; min-height:130px; }
@@ -65,7 +66,7 @@
   padding:16px 44px; border:none; border-radius:2px;
   font-family:'DM Sans',sans-serif; font-size:12px;
   letter-spacing:2.5px; text-transform:uppercase;
-  cursor:none; position:relative; overflow:hidden;
+  cursor:pointer; position:relative; overflow:hidden;
   width:fit-content; transition:color 0.4s;
 }
 .submit-btn::before {
@@ -123,8 +124,6 @@
 </style>
 </head>
 <body>
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 <div id="nav-placeholder"></div>
 
 <!-- PAGE HERO -->
@@ -142,19 +141,19 @@
 <!-- ENQUIRY TYPES -->
 <div class="enquiry-types">
   <div class="enq-card reveal">
-    <span class="enq-icon">🌍</span>
+    <span class="enq-icon"><i class='bx bx-globe'></i></span>
     <div class="enq-title">Import Enquiry</div>
     <p class="enq-desc">Looking to import fresh fruits, cereals, or spices? Send us your volume requirements, destination port, and packaging preferences.</p>
     <div class="enq-tag">For Importers &amp; Distributors</div>
   </div>
   <div class="enq-card reveal reveal-delay-1">
-    <span class="enq-icon">🏭</span>
+    <span class="enq-icon"><i class='bx bxs-factory'></i></span>
     <div class="enq-title">B2B / Wholesale</div>
     <p class="enq-desc">Food manufacturers, hotel chains, and large retailers — we offer bulk pricing and dedicated account management for consistent supply.</p>
     <div class="enq-tag">For Bulk Buyers</div>
   </div>
   <div class="enq-card reveal reveal-delay-2">
-    <span class="enq-icon">🤝</span>
+    <span class="enq-icon"><i class='bx bxs-handshake'></i></span>
     <div class="enq-title">Partnership</div>
     <p class="enq-desc">Agents, brokers, and trade intermediaries — we're always open to building long-term distribution partnerships in new markets.</p>
     <div class="enq-tag">For Trade Partners</div>
@@ -170,7 +169,7 @@
 
     <div class="contact-info reveal reveal-delay-2">
       <div class="info-item">
-        <div class="info-icon"><i class="bx bx-map-pin"></i></div>
+        <div class="info-icon"><i class="bx bxs-map"></i></div>
         <div class="info-text">
           <span class="label">Office Location</span>
           <span class="value">Degloor, Dist. Nanded, Maharashtra — 431717, India</span>
@@ -207,9 +206,8 @@
     </div>
 
     <div class="social-row reveal reveal-delay-3">
-      <a href="https://instagram.com/vyankyaafoods" target="_blank" class="social-link">📸 Instagram</a>
-      <a href="#" target="_blank" class="social-link">f Facebook</a>
-      <a href="https://linkedin.com/in/baalaje-v-kadaam-019123356" target="_blank" class="social-link">in LinkedIn</a>
+      <a href="https://instagram.com/vyankyaafoods" target="_blank" class="social-link"><i class='bx bxl-instagram'></i> Instagram</a>
+      <a href="https://linkedin.com/in/baalaje-v-kadaam-019123356" target="_blank" class="social-link"><i class='bx bxl-linkedin'></i> LinkedIn</a>
     </div>
   </div>
 
@@ -223,7 +221,7 @@
       <div class="field"><label>Phone / WhatsApp</label><input type="tel" id="f-phone" placeholder="+1 555 000 0000"/></div>
     </div>
     <div class="form-row">
-      <div class="field"><label>Country *</label><input type="text" id="f-country" placeholder="United Arab Emirates" required/></div>
+      <div class="field"><label>City *</label><input type="text" id="f-city" placeholder="Mumbai" required/></div>
       <div class="field"><label>Enquiry Type</label>
         <select id="f-type">
           <option value="">Select type...</option>
@@ -237,14 +235,15 @@
     <div class="field"><label>Product Interest</label>
       <select id="f-product">
         <option value="">Select a product...</option>
-        <option>Thompson Seedless Grapes</option>
-        <option>Bhagwa Pomegranate</option>
-        <option>Organic Turmeric</option>
-        <option>Red / White Onions</option>
-        <option>Barley Flakes</option>
-        <option>Corn Flakes</option>
-        <option>Millet Flakes</option>
-        <option>Breakfast Cereals</option>
+        <option>Cold Pressed Safflower Oil</option>
+        <option>Premium Sunflower Oil</option>
+        <option>Refined Soya Bean Oil</option>
+        <option>All Types of Rice</option>
+        <option>Gehu (Golden Wheat)</option>
+        <option>Refined White Sugar</option>
+        <option>Peanut Oil Cake</option>
+        <option>Cotton Oil Cake</option>
+        <option>Safflower De-oiled Cake (DOC)</option>
         <option>Multiple Products</option>
       </select>
     </div>
@@ -272,23 +271,64 @@
 
 <div id="footer-placeholder"></div>
 <script src="js/main.js"></script>
-<script>
-  function handleSubmit() {
+<script type="module">
+  import { db, collection, addDoc, serverTimestamp } from './js/firebase-config.js';
+
+  window.handleSubmit = async function() {
     const name = document.getElementById('f-name').value.trim();
+    const company = document.getElementById('f-company').value.trim();
     const email = document.getElementById('f-email').value.trim();
-    const country = document.getElementById('f-country').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    const city = document.getElementById('f-city').value.trim();
+    const type = document.getElementById('f-type').value;
+    const product = document.getElementById('f-product').value;
     const message = document.getElementById('f-message').value.trim();
-    if (!name || !email || !country || !message) {
+
+    if (!name || !email || !city || !message) {
       alert('Please fill in all required fields (*).');
       return;
     }
-    document.getElementById('submitBtn').style.display = 'none';
-    document.getElementById('formSuccess').style.display = 'block';
-    document.getElementById('formSuccess').scrollIntoView({ behavior:'smooth', block:'center' });
+
+    const submitBtn = document.getElementById('submitBtn');
+    const originalBtnText = submitBtn.innerHTML;
+    
+    // Loading State
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Sending... <i class="bx bx-loader-alt bx-spin"></i></span>';
+
+    const contactData = {
+      name,
+      company,
+      email,
+      phone,
+      city,
+      enquiryType: type,
+      productInterest: product,
+      message,
+      timestamp: serverTimestamp(),
+      formType: 'contact_page',
+      status: 'new'
+    };
+
+    try {
+      await addDoc(collection(db, "contacts"), contactData);
+      
+      // Success State
+      submitBtn.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+      document.getElementById('formSuccess').scrollIntoView({ behavior:'smooth', block:'center' });
+      
+      // Optionally reset fields (already hidden form area basically)
+    } catch (e) {
+      console.error("Error sending message: ", e);
+      alert('Oops! We encountered an error while sending your message. Please try again or use the direct contact details provided.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+    }
   }
 
-  fetch('components/nav.html').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('mainNav');if(n){const o=()=>n.classList.toggle('scrolled',window.scrollY>50);window.addEventListener('scroll',o,{passive:true});o();}document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='contact.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
-  fetch('components/footer.html').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
+  fetch('components/nav.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('mainNav');if(n){const o=()=>n.classList.toggle('scrolled',window.scrollY>50);window.addEventListener('scroll',o,{passive:true});o();}document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='contact.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
+  fetch('components/footer.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
   
   // Initialize Boxicons
   boxicons.init();

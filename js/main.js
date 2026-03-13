@@ -4,34 +4,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── CURSOR ── */
-  const cursor = document.getElementById('cursor');
-  const ring   = document.getElementById('cursorRing');
-  if (cursor && ring) {
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.transform = `translate(${mx - 6}px,${my - 6}px)`;
-    });
-    (function animateRing() {
-      rx += (mx - rx) * 0.13;
-      ry += (my - ry) * 0.13;
-      ring.style.transform = `translate(${rx - 20}px,${ry - 20}px)`;
-      requestAnimationFrame(animateRing);
-    })();
-    document.querySelectorAll('a, button, .product-card, .gallery-item, .cat-card, .cert-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.width  = '20px';
-        cursor.style.height = '20px';
-        cursor.style.background = 'var(--earth)';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.width  = '12px';
-        cursor.style.height = '12px';
-        cursor.style.background = 'var(--gold)';
-      });
-    });
-  }
 
   /* ── NAV SCROLL ── */
   const nav = document.getElementById('mainNav');

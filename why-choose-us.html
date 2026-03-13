@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Why Us — Vyankyaa Foods</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"/>
+<style>
+/* WHY CHOOSE US CUSTOM STYLES */
+.reasons {
+  padding: 100px 60px;
+  background: var(--warm-white);
+}
+
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.reason-card {
+  background: var(--cream);
+  padding: 50px;
+  border-radius: 4px;
+  border: 1px solid var(--sand);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  gap: 30px;
+}
+
+.reason-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(44, 26, 14, 0.1);
+  border-color: var(--gold);
+}
+
+.reason-icon {
+  width: 70px;
+  height: 70px;
+  background: var(--earth);
+  color: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+  transition: transform 0.4s;
+}
+
+.reason-card:hover .reason-icon {
+  transform: rotateY(180deg);
+  background: var(--gold);
+  color: var(--earth);
+}
+
+.reason-content h4 {
+  font-family: 'Cormorant Garamond';
+  font-size: 26px;
+  font-weight: 400;
+  margin-bottom: 15px;
+  color: var(--earth);
+}
+
+.reason-content p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--light-text);
+}
+
+/* QUALITY ASSURANCE SECTION */
+.quality-assurance {
+  padding: 120px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.qa-img-wrap {
+  position: relative;
+  height: 500px;
+}
+
+.qa-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.qa-badge {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  background: var(--gold);
+  color: var(--earth);
+  padding: 30px;
+  border-radius: 50%;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(201, 151, 58, 0.3);
+  z-index: 2;
+}
+
+.qa-badge .num { font-family: 'Bebas Neue'; font-size: 32px; line-height: 1; }
+.qa-badge .txt { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+
+.qa-list {
+  list-style: none;
+  margin-top: 40px;
+}
+
+.qa-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 25px;
+  font-size: 15px;
+  color: var(--light-text);
+}
+
+.qa-list li i {
+  color: var(--gold);
+  font-size: 20px;
+  margin-top: 2px;
+}
+
+/* COMMITMENT STRIP */
+.commitment-strip {
+  background: var(--clay);
+  padding: 100px 60px;
+  text-align: center;
+  color: var(--cream);
+}
+
+.commitment-strip h2 {
+  font-family: 'Cormorant Garamond';
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 300;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.commitment-strip h2 em { font-style: italic; color: var(--gold); }
+
+@media (max-width: 1024px) {
+  .reasons-grid { grid-template-columns: 1fr; }
+  .quality-assurance { grid-template-columns: 1fr; gap: 50px; }
+  .qa-img-wrap { height: 350px; }
+}
+
+@media (max-width: 600px) {
+  .reasons, .quality-assurance, .commitment-strip { padding: 70px 20px; }
+  .reason-card { padding: 30px; flex-direction: column; gap: 20px; }
+  .qa-badge { width: 100px; height: 100px; padding: 20px; top: -15px; right: -15px; }
+  .qa-badge .num { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-content">
+    <div class="section-label" style="opacity:0;animation:fadeUp 0.7s 0.2s ease forwards;">Your Export Partner</div>
+    <h1>Premium Quality, <em>Reliable</em> Delivery</h1>
+    <p>Discover why hundreds of importers across 50+ nations trust Vyankyaa Foods for their premium agricultural requirements. We blend tradition with modern standards.</p>
+  </div>
+  <div class="page-hero-img">
+    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000&auto=format&fit=crop" alt="Global Trade and Spices"/>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Quality Assurance</span><span class="marquee-item">Timely Delivery</span><span class="marquee-item">Direct Farm Sourcing</span><span class="marquee-item">Global Standards</span><span class="marquee-item">Trust & Transparency</span><span class="marquee-item">Customer First</span><span class="marquee-item">Quality Assurance</span><span class="marquee-item">Timely Delivery</span><span class="marquee-item">Direct Farm Sourcing</span><span class="marquee-item">Global Standards</span><span class="marquee-item">Trust & Transparency</span><span class="marquee-item">Customer First</span>
+  </div>
+</div>
+
+<!-- REASONS -->
+<section class="reasons">
+  <div class="section-header">
+    <div class="section-label reveal">The Vyankyaa Advantage</div>
+    <h2 class="reveal reveal-delay-1">Excellence in <em>Every Grain</em></h2>
+  </div>
+  
+  <div class="reasons-grid">
+    <div class="reason-card reveal">
+      <div class="reason-icon"><i class="bx bx-globe"></i></div>
+      <div class="reason-content">
+        <h4>Global Reach, Local Roots</h4>
+        <p>With a presence in over 50 countries, we understand international market demands while staying deeply connected to our Maharashtra farmlands.</p>
+      </div>
+    </div>
+    
+    <div class="reason-card reveal reveal-delay-1">
+      <div class="reason-icon"><i class="bx bx-check-shield"></i></div>
+      <div class="reason-content">
+        <h4>Certified Quality</h4>
+        <p>Our products carry APEDA and FSSAI certifications, meeting the most stringent international food safety and quality standards.</p>
+      </div>
+    </div>
+    
+    <div class="reason-card reveal">
+      <div class="reason-icon"><i class="bx bx-leaf"></i></div>
+      <div class="reason-content">
+        <h4>Direct Farm Sourcing</h4>
+        <p>By eliminating middlemen, we ensure better prices for our 200+ farmer partners and better value for our international clients.</p>
+      </div>
+    </div>
+    
+    <div class="reason-card reveal reveal-delay-1">
+      <div class="reason-icon"><i class="bx bx-package"></i></div>
+      <div class="reason-content">
+        <h4>Modern Packaging</h4>
+        <p>We use state-of-the-art packaging solutions that preserve freshness, aroma, and nutritional value during long-haul global transits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUALITY ASSURANCE -->
+<section class="quality-assurance">
+  <div class="qa-img-wrap reveal">
+    <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?q=80&w=600&auto=format&fit=crop" alt="Quality Inspection" class="qa-img"/>
+    <div class="qa-badge">
+      <span class="num">100%</span>
+      <span class="txt">Certified Quality</span>
+    </div>
+  </div>
+  <div class="qa-content">
+    <div class="section-label reveal">Our Standard</div>
+    <h2 class="reveal reveal-delay-1">No Compromise on <em>Integrity</em></h2>
+    <p class="reveal reveal-delay-2">Every batch of produce undergoes a multi-layer inspection process before being approved for export. We prioritize the trust our buyers place in us above all else.</p>
+    
+    <ul class="qa-list">
+      <li class="reveal reveal-delay-2"><i class="bx bx-check-double"></i> Batch-wise secondary lab testing for purity.</li>
+      <li class="reveal reveal-delay-3"><i class="bx bx-check-double"></i> Moisture-controlled storage facilities for grains.</li>
+      <li class="reveal reveal-delay-4"><i class="bx bx-check-double"></i> Transparent documentation for every shipment.</li>
+      <li class="reveal reveal-delay-5"><i class="bx bx-check-double"></i> Real-time tracking and logistics communication.</li>
+    </ul>
+    
+    <div class="reveal reveal-delay-5" style="margin-top: 40px;">
+      <a href="certificates.html" class="btn-outline"><span>View Certifications</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- COMMITMENT STRIP -->
+<section class="commitment-strip">
+  <div class="reveal">
+    <h2>"We don't just export products; we <em>export the trust</em> of Indian farmers."</h2>
+    <a href="contact.html" class="btn-primary" style="background:var(--gold); color:var(--earth);"><span>Get a Quote Today</span></a>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="js/main.js"></script>
+<script>
+  fetch('components/nav.html?v=1773426592').then(r=>r.text()).then(h=>{
+    document.getElementById('nav-placeholder').outerHTML=h;
+    const s=document.createElement('script');
+    s.textContent=`document.addEventListener('DOMContentLoaded',()=>{
+      const n=document.getElementById('mainNav');
+      if(n){
+        const o=()=>n.classList.toggle('scrolled',window.scrollY>50);
+        window.addEventListener('scroll',o,{passive:true});
+        o();
+      }
+      document.querySelectorAll('.nav-links a').forEach(a=>{
+        if(a.getAttribute('href')==='why-choose-us.html')a.classList.add('active');
+      });
+      const b=document.getElementById('navBurger');
+      const d=document.getElementById('mobileDrawer');
+      if(b&&d){
+        b.addEventListener('click',()=>{
+          const op=d.classList.toggle('open');
+          d.style.display=op?'flex':'none';
+          document.body.style.overflow=op?'hidden':'';
+        });
+        d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+          d.classList.remove('open');
+          d.style.display='none';
+          document.body.style.overflow='';
+        }));
+      }
+    })`;
+    document.head.appendChild(s);
+  });
+  fetch('components/footer.html?v=1773426592').then(r=>r.text()).then(h=>{
+    document.getElementById('footer-placeholder').outerHTML=h;
+  });
+</script>
+</body>
+</html>

@@ -22,34 +22,13 @@ body {
   background: var(--cream);
   color: var(--earth);
   line-height: 1.6;
-  cursor: none;
   overflow-x: hidden;
 }
 
 /* Custom Cursor */
-.custom-cursor {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  background: var(--gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease;
-}
+.custom-cursor { display: none; }
 
-.cursor-ring {
-  position: fixed;
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--clay);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.15s ease;
-}
+.cursor-ring { display: none; }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
@@ -83,7 +62,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
-  cursor: none;
+  cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
@@ -337,7 +316,7 @@ input.error, select.error, textarea.error {
   border: none;
   background: transparent;
   color: var(--light-text);
-  cursor: none;
+  cursor: pointer;
   border-radius: 2px;
   display: flex;
   align-items: center;
@@ -585,7 +564,7 @@ input.error, select.error, textarea.error {
   color: var(--light-text);
   font-size: 13px;
   font-weight: 500;
-  cursor: none;
+  cursor: pointer;
   border-radius: 2px 2px 0 0;
   transition: all 0.3s;
   position: relative;
@@ -630,7 +609,7 @@ input.error, select.error, textarea.error {
   height: 24px;
   background: var(--sand);
   border-radius: 12px;
-  cursor: none;
+  cursor: pointer;
   transition: background 0.3s;
 }
 
