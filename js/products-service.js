@@ -52,7 +52,28 @@ export async function fetchAllProducts() {
 export async function fetchPublicProducts() {
   if (cachedPublicProducts) return cachedPublicProducts;
 
-  // 1. Try LocalStorage Cache
+  // 1. Try Cloud Firestore (LIVE)
+  try {
+    const snap = await getDocs(collection(db, COLLECTION));
+    if (!snap.empty) {
+      const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      cachedPublicProducts = sortProducts(data.filter(p => p.status !== 'unavailable'));
+      
+      // Save to cache for offline/faster subsequent loads
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          data: cachedPublicProducts,
+          timestamp: Date.now()
+        }));
+      } catch (e) {}
+      
+      return cachedPublicProducts;
+    }
+  } catch (err) {
+    console.warn('[products-service] Live fetch failed:', err.message);
+  }
+
+  // 2. Try LocalStorage Cache (Offline Fallback)
   try {
     const local = localStorage.getItem(CACHE_KEY);
     if (local) {
@@ -64,7 +85,7 @@ export async function fetchPublicProducts() {
     }
   } catch (e) {}
 
-  // 2. Try JSON Fallback (Case B)
+  // 3. Try JSON Fallback (Static Fallback)
   try {
     const resp = await fetch('/data/products.json');
     if (resp.ok) {
@@ -74,8 +95,8 @@ export async function fetchPublicProducts() {
     }
   } catch (e) {}
 
-  // 3. Absolute Fallback (Case A)
-  cachedPublicProducts = sortProducts([...FALLBACK_PRODUCTS]);
+  // 4. Absolute Fallback (Built-in Default)
+  cachedPublicProducts = sortProducts(FALLBACK_PRODUCTS.filter(p => p.status !== 'unavailable'));
   return cachedPublicProducts;
 }
 

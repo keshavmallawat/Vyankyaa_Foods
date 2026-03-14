@@ -522,26 +522,27 @@
 
     // Render each category group
     const ordinalWords = ['01','02','03','04','05','06','07','08'];
-    catalog.innerHTML = catOrder.map((catKey, i) => {
-      const catProds = grouped[catKey];
-      const label    = catProds[0]?.categoryLabel || catKey;
-      const labelParts = label.split(/\s+(&amp;|&|\s)/);
-      const displayLabel = label.includes('&') || label.includes('&amp;')
-        ? `${label.split(/&/)[0].trim()} <em>&amp; ${label.split(/&/).slice(1).join('').replace(/amp;/,'').trim()}</em>`
-        : label.split(' ').length > 1
-          ? `${label.split(' ').slice(0,-1).join(' ')} <em>${label.split(' ').slice(-1)}</em>`
-          : label;
-      return `
-        <div class="cat-group" data-category="${escHtml(catKey)}">
-          <div class="cat-group-header reveal">
-            <span class="cat-group-num">${ordinalWords[i] || String(i+1).padStart(2,'0')}</span>
-            <div class="cat-group-title">${displayLabel}</div>
-          </div>
-          <div class="products-grid">
-            ${catProds.map((p, j) => productCard(p, j)).join('')}
-          </div>
-        </div>`;
-    }).join('');
+    catalog.innerHTML = catOrder
+      .filter(catKey => grouped[catKey] && grouped[catKey].length > 0)
+      .map((catKey, i) => {
+        const catProds = grouped[catKey];
+        const label    = catProds[0]?.categoryLabel || catKey;
+        const displayLabel = label.includes('&') || label.includes('&amp;')
+          ? `${label.split(/&/)[0].trim()} <em>&amp; ${label.split(/&/).slice(1).join('').replace(/amp;/,'').trim()}</em>`
+          : label.split(' ').length > 1
+            ? `${label.split(' ').slice(0,-1).join(' ')} <em>${label.split(' ').slice(-1)}</em>`
+            : label;
+        return `
+          <div class="cat-group" data-category="${escHtml(catKey)}">
+            <div class="cat-group-header reveal">
+              <span class="cat-group-num">${ordinalWords[i] || String(i+1).padStart(2,'0')}</span>
+              <div class="cat-group-title">${displayLabel}</div>
+            </div>
+            <div class="products-grid">
+              ${catProds.map((p, j) => productCard(p, j)).join('')}
+            </div>
+          </div>`;
+      }).join('');
   }
 
   function escHtml(s) {
