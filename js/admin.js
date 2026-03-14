@@ -836,7 +836,10 @@ window.renderReports = function() {
     ['Contacted', data.filter(d => d.status==='contacted').length]
   ], 'bg-blue-400');
   const pc = {};
-  data.filter(d => d.product).forEach(d => { pc[d.product] = (pc[d.product]||0)+1; });
+  data.filter(d => d.productInterest || d.product).forEach(d => { 
+    const pName = d.productInterest || d.product;
+    pc[pName] = (pc[pName]||0)+1; 
+  });
   barChart('chartTopProducts', Object.entries(pc).sort((a,b)=>b[1]-a[1]).slice(0,5), 'bg-emerald-400');
   const cc = {};
   data.filter(d => d.city).forEach(d => { cc[d.city] = (cc[d.city]||0)+1; });
