@@ -133,7 +133,7 @@ function waitForEmailJS(callback) {
             const globalError = document.createElement('p');
             globalError.className = 'global-error-msg';
             globalError.style.cssText = 'color:var(--clay);font-size:12px;margin-top:12px;';
-            globalError.textContent = 'Failed to send message. Please try again or email us directly.';
+            globalError.textContent = 'Database error: Please ensure Firestore is initialized in your console.';
             submitBtn.parentElement.appendChild(globalError);
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnText;

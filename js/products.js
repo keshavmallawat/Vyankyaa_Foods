@@ -141,7 +141,7 @@ function init() {
 
         } catch (error) {
             console.error('Submission Error:', error);
-            showGlobalError(btn, 'Failed to save your request. Please try again.');
+            showGlobalError(btn, 'Database error: Please ensure Firestore is initialized in your console.');
             btn.disabled = false;
             btn.textContent = originalText;
         }
