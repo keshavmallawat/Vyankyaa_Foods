@@ -273,12 +273,18 @@
 
     <!-- ── PRODUCTS ── -->
     <div id="dash-products" class="tab-content max-w-7xl mx-auto pb-10">
-      <div class="flex justify-between items-center mb-8">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h2 class="text-2xl font-bold text-slate-900">Product Management</h2>
-          <p class="text-sm text-slate-500">Drag items to reorder them or categories to rearrange the website layout.</p>
+          <p class="text-sm text-slate-500">Drag items to reorder. Changes sync live instantly.</p>
         </div>
-        <button onclick="openAddProductModal()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-emerald-700 flex items-center gap-2 shadow-lg shadow-emerald-200 transition-all hover:-translate-y-0.5"><i class='bx bx-plus-circle text-lg'></i> Add New Product</button>
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="relative min-w-[240px]">
+            <i class='bx bx-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'></i>
+            <input type="text" id="productSearch" oninput="window.renderProductsTable()" placeholder="Search products..." class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all">
+          </div>
+          <button onclick="openAddProductModal()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-emerald-700 flex items-center gap-2 shadow-lg shadow-emerald-200 transition-all hover:-translate-y-0.5"><i class='bx bx-plus-circle text-lg'></i> Add Product</button>
+        </div>
       </div>
       
       <!-- Visual Category Reordering Wrap -->

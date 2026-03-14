@@ -136,6 +136,8 @@ async function loadDashboard() {
     renderContactsTable(contacts);
     renderProductsTable(); // show skeleton
     loadAdminProducts();   // async: loads from Firestore
+    // Pre-cache sortProducts globally for Sortable usage
+    window.sortProducts = sortProducts;
   } catch (err) {
     console.error('Load error:', err);
     window.showToast('Failed to load data. Check connection.', 'error');
@@ -518,9 +520,25 @@ window.tagLead = function(id, tag) {
 // ════════════════════════════════════════════════
 function renderProductsTable() {
   const container = document.getElementById('categoryContainer');
+  const searchInput = document.getElementById('productSearch');
   if (!container) return;
-  const products = getAdminProducts();
   
+  let products = getAdminProducts();
+  const query = (searchInput?.value || '').toLowerCase().trim();
+
+  // 0. Filter by Search
+  if (query) {
+    products = products.filter(p => 
+      p.name.toLowerCase().includes(query) || 
+      (p.categoryLabel||'').toLowerCase().includes(query)
+    );
+  }
+  
+  if (!products.length && query) {
+    container.innerHTML = `<div class="py-20 text-center text-slate-400 italic"><i class="bx bx-search text-4xl mb-3"></i><p>No products match "${esc(query)}"</p></div>`;
+    return;
+  }
+
   if (!products.length) {
     container.innerHTML = '<div class="py-20 text-center text-slate-400 italic"><i class="bx bx-loader-alt bx-spin text-4xl mb-3"></i><p>Loading products…</p></div>';
     return;
@@ -552,7 +570,8 @@ function renderProductsTable() {
           <i class='bx bx-dots-vertical-rounded text-slate-300 text-xl'></i>
           <h3 class="font-bold text-slate-800 flex items-center gap-2">
             ${esc(cat.label)} 
-            <span class="bg-slate-200 text-slate-600 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-tighter">${cat.items.length} Items</span>
+            <button onclick="window.renameCategory('${esc(cat.id)}', '${esc(cat.label)}')" class="p-1 hover:bg-slate-200 rounded text-slate-400 hover:text-emerald-600 transition-colors" title="Rename Category"><i class='bx bx-edit-alt text-sm'></i></button>
+            <span class="bg-white/80 border border-slate-200 text-slate-500 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-tighter">${cat.items.length} Items</span>
           </h3>
         </div>
         <div class="flex items-center gap-2">
@@ -562,7 +581,7 @@ function renderProductsTable() {
       
       <div class="product-grid p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" data-cat="${esc(cat.id)}">
         ${cat.items.sort((a,b)=>(a.order||99)-(b.order||99)).map(p => `
-          <div class="product-card group relative bg-white border border-slate-100 rounded-xl p-3 flex flex-col gap-3 hover:shadow-xl hover:border-emerald-200 transition-all cursor-move" data-id="${esc(p.id)}">
+          <div class="product-card group relative bg-white border border-slate-100 rounded-xl p-3 flex flex-col gap-3 hover:shadow-xl hover:border-emerald-200 transition-all cursor-move ${p.status==='unavailable'?'opacity-70':''}" data-id="${esc(p.id)}">
             <div class="relative w-full aspect-square bg-slate-100 rounded-lg overflow-hidden border border-slate-50">
               <img src="${esc(p.imageUrl || p.image || '')}" alt="" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.src='';">
               
@@ -572,11 +591,11 @@ function renderProductsTable() {
                 <button onclick="window.deleteProduct('${esc(p.id)}')" class="bg-white/95 backdrop-blur shadow-lg w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 transition-colors"><i class='bx bx-trash'></i></button>
               </div>
 
-              <!-- Status Badge -->
+              <!-- Status Badge (Click to Toggle) -->
               <div class="absolute top-2 right-2">
-                <span class="text-[9px] font-black uppercase px-2 py-1 rounded bg-white/90 backdrop-blur shadow-sm ${p.status==='available'?'text-emerald-600':'text-red-500'}">
+                <button onclick="window.toggleQuickStatus('${esc(p.id)}', '${esc(p.status)}')" class="text-[9px] font-black uppercase px-2 py-1 rounded bg-white/90 backdrop-blur shadow-sm hover:scale-105 transition-transform ${p.status==='available'?'text-emerald-600':'text-red-500'}">
                   ${p.status || 'AVAILABLE'}
-                </span>
+                </button>
               </div>
             </div>
 
@@ -638,11 +657,20 @@ function initSortable() {
         const newOrder = this.toArray();
         const updates = [];
         
+        // When moving between categories, we need a template to sync labels/order
+        const targetTemplate = getAdminProducts().find(x => x.category === targetCatId);
+
         newOrder.forEach((pid, index) => {
           const p = getAdminProducts().find(x => x.id === pid);
           if (p) {
             p.order = index + 1;
-            p.category = targetCatId; // Handle moving between categories
+            p.category = targetCatId; 
+            
+            if (targetTemplate) {
+              p.categoryLabel = targetTemplate.categoryLabel || p.categoryLabel;
+              p.categoryOrder = targetTemplate.categoryOrder || p.categoryOrder;
+            }
+            
             updates.push(window.fsaveProduct(p));
           }
         });
@@ -660,6 +688,33 @@ window.quickAddProduct = function(catId, catLabel) {
   // Trigger change event to set hidden fields
   const event = new Event('change');
   document.getElementById('prodCategorySelect').dispatchEvent(event);
+};
+
+window.toggleQuickStatus = async function(id, current) {
+  const next = current === 'available' ? 'unavailable' : 'available';
+  try {
+    await updateProductStatus(id, next);
+    const p = window._adminProducts.find(x => x.id === id);
+    if (p) p.status = next;
+    renderProductsTable();
+    window.showToast(`Status changed to ${next}`, 'success');
+  } catch(e) { window.showToast('Failed to toggle status', 'error'); }
+};
+
+window.renameCategory = async function(catId, currentLabel) {
+  const newLabel = prompt(`Rename category "${currentLabel}" to:`, currentLabel);
+  if (!newLabel || newLabel === currentLabel) return;
+
+  try {
+    const products = getAdminProducts().filter(p => p.category === catId);
+    const updates = products.map(p => {
+      p.categoryLabel = newLabel;
+      return window.fsaveProduct(p);
+    });
+    await Promise.all(updates);
+    renderProductsTable();
+    window.showToast('Category renamed successfully!', 'success');
+  } catch(e) { window.showToast('Failed to rename category', 'error'); }
 };
 
 window.changeProductStatus = async function(id, status) {
