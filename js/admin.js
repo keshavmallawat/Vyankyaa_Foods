@@ -603,14 +603,6 @@ function renderProductsTable() {
               <input type="file" id="img-upload-${p.id}" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="window.handleProductImageUpload(event, '${p.id}')">
               <button onclick="document.getElementById('img-upload-${p.id}').click()" class="absolute top-2 left-2 w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100 z-10" title="Change Photo"><i class='bx bx-camera'></i></button>
 
-              <!-- Tags Overlay -->
-              <div class="absolute top-10 left-2 right-2 flex flex-wrap gap-1 pointer-events-none">
-                ${(p.tag || '').split(',').map(t => t.trim()).filter(t => t).map(t => `
-                  <span class="px-1.5 py-0.5 rounded bg-white/90 backdrop-blur text-emerald-800 text-[8px] font-black uppercase shadow-sm border border-emerald-100">
-                    ${esc(t)}
-                  </span>
-                `).join('')}
-              </div>
             </div>
 
             <div class="px-1 text-center">
