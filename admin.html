@@ -480,10 +480,20 @@
         </div>
         <input type="hidden" id="prodImage">
       </div>
-      <div class="grid grid-cols-3 gap-3">
-        <div><label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Badge Tag</label><input type="text" id="prodTag" placeholder="Cold Pressed" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-emerald-400"></div>
-        <div><label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Sort Order</label><input type="number" id="prodOrder" placeholder="1" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-emerald-400"></div>
-        <div><label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status</label><select id="prodStatus" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-emerald-400 bg-white"><option value="available">Available</option><option value="limited">Limited Stock</option><option value="unavailable">Unavailable</option></select></div>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 flex justify-between">
+            <span>Product Tags</span>
+            <span class="text-[10px] lowercase font-normal italic text-slate-400">Separate with commas</span>
+          </label>
+          <input type="text" id="prodTag" placeholder="e.g. Organic, Export Quality, New" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-emerald-400 mb-2" oninput="window.updateModalTagPreview(this.value)">
+          <div id="modalTagPreview" class="flex flex-wrap gap-1"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Sort Order</label><input type="number" id="prodOrder" placeholder="1" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-emerald-400"></div>
+          <div><label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Status</label><select id="prodStatus" class="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-emerald-400 bg-white"><option value="available">Available</option><option value="limited">Limited Stock</option><option value="unavailable">Unavailable</option></select></div>
+        </div>
       </div>
     </div>
     <div class="px-6 py-4 bg-slate-50 border-t flex gap-3 justify-end">

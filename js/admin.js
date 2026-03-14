@@ -605,7 +605,16 @@ function renderProductsTable() {
 
             <div class="px-1 text-center">
               <h4 class="font-bold text-slate-800 truncate text-sm mb-0.5">${esc(p.name)}</h4>
-              <p class="text-xs text-slate-500 font-medium">${esc(p.price || 'On Request')}</p>
+              <p class="text-xs text-slate-500 font-medium mb-2">${esc(p.price || 'On Request')}</p>
+              
+              <!-- Tag Badges -->
+              <div class="flex flex-wrap justify-center gap-1">
+                ${(p.tag || '').split(',').map(t => t.trim()).filter(t => t).map(t => `
+                  <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[9px] font-bold border border-emerald-100 uppercase tracking-tight">
+                    ${esc(t)}
+                  </span>
+                `).join('')}
+              </div>
             </div>
           </div>
         `).join('')}
@@ -779,6 +788,9 @@ window.editProduct = function(id) {
   const fileInput = document.getElementById('prodImgFile');
   if (fileInput) fileInput.value = '';
 
+  // Trigger Tag Preview
+  window.updateModalTagPreview(document.getElementById('prodTag').value);
+
   openModal('productModal');
 };
 
@@ -798,6 +810,26 @@ window.handleModalImageChange = function(e) {
     };
     reader.readAsDataURL(file);
   }
+};
+
+window.updateModalTagPreview = function(val) {
+  const container = document.getElementById('modalTagPreview');
+  if (!container) return;
+  const tags = (val || '').split(',').map(t => t.trim()).filter(t => t);
+  container.innerHTML = tags.map(t => `
+    <span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-slate-100 text-slate-700 text-[10px] font-bold border border-slate-200 uppercase tracking-tight group hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all cursor-pointer" onclick="window.removeModalTag('${esc(t)}')">
+      ${esc(t)}
+      <i class='bx bx-x text-xs opacity-50 group-hover:opacity-100'></i>
+    </span>
+  `).join('');
+};
+
+window.removeModalTag = function(tagToRemove) {
+  const input = document.getElementById('prodTag');
+  if (!input) return;
+  const tags = input.value.split(',').map(t => t.trim()).filter(t => t && t !== tagToRemove);
+  input.value = tags.join(', ');
+  window.updateModalTagPreview(input.value);
 };
 
 // ════════════════════════════════════════════════
@@ -964,6 +996,10 @@ window.openAddProductModal = function() {
   populateCategorySelect();
   const sel = document.getElementById('prodCategorySelect'); if(sel) sel.value = '';
   document.getElementById('newCategoryWrap').style.display = 'none';
+  
+  // Reset Preview
+  window.updateModalTagPreview('');
+
   openModal('productModal');
 };
 
