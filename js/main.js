@@ -148,5 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* ── PRE-FETCH PRODUCTS ── */
+  // Only try if not on admin page (to avoid module conflicts)
+  if (!window.location.pathname.includes('/admin')) {
+    import('./products-service.js').then(m => m.prefetchProducts()).catch(e => console.warn('Prefetch skipped:', e));
+  }
 });
 

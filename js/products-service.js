@@ -23,6 +23,7 @@ import {
 } from './firebase-config.js';
 
 const COLLECTION = 'products';
+let cachedPublicProducts = null;
 
 // ── DEFAULT SEED DATA ─────────────────────────────────────────────────────────
 export const DEFAULT_PRODUCTS = [
@@ -113,8 +114,16 @@ export async function fetchAllProducts() {
 
 // ── FETCH PUBLIC PRODUCTS (website: available + limited only) ─────────────────
 export async function fetchPublicProducts() {
+  if (cachedPublicProducts) return cachedPublicProducts;
+  
   const all = await fetchAllProducts();
-  return all.filter(p => p.status === 'available' || p.status === 'limited');
+  cachedPublicProducts = all.filter(p => p.status === 'available' || p.status === 'limited');
+  return cachedPublicProducts;
+}
+
+// Helper to pre-fetch without returning
+export function prefetchProducts() {
+  fetchPublicProducts().catch(() => {});
 }
 
 // ── SEED DEFAULTS (runs once on first visit when collection is empty) ─────────
