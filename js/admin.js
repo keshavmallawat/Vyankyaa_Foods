@@ -207,6 +207,7 @@ document.addEventListener('click', function(e) {
     case 'modal-open':  openModal(btn.dataset.modal); break;
     case 'nav':      switchNav(btn.dataset.target); break;
     case 'mark-resolved': markAsFromModal('resolved'); break;
+    case 'mark-pending':  markAsFromModal('pending'); break;
     case 'mark-contacted': markAsFromModal('contacted'); break;
     case 'save-note': saveNote(); break;
     case 'reply-modal': replyToUser(); break;
@@ -1119,8 +1120,16 @@ function openItemModal(item) {
 
   const btnR = document.getElementById('btnResolve');
   if (btnR) {
-    btnR.disabled = item.status === 'resolved';
-    btnR.innerHTML = item.status === 'resolved' ? '<i class="bx bx-check"></i> Resolved' : '<i class="bx bx-check"></i> Resolve';
+    if (item.status === 'resolved') {
+      btnR.innerHTML = '<i class="bx bx-undo"></i> Unresolve';
+      btnR.dataset.action = 'mark-pending';
+      btnR.className = "action-btn ml-auto bg-slate-100 text-slate-600 hover:bg-slate-200";
+    } else {
+      btnR.innerHTML = '<i class="bx bx-check"></i> Resolve';
+      btnR.dataset.action = 'mark-resolved';
+      btnR.className = "action-btn btn-resolve ml-auto";
+    }
+    btnR.disabled = false;
   }
   const btnC = document.getElementById('btnContactedMod');
   if (btnC) { 
