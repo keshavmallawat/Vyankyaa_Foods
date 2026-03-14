@@ -601,20 +601,20 @@ function renderProductsTable() {
               <!-- Quick Image Upload -->
               <input type="file" id="img-upload-${p.id}" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="window.handleProductImageUpload(event, '${p.id}')">
               <button onclick="document.getElementById('img-upload-${p.id}').click()" class="absolute top-2 left-2 w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100 z-10" title="Change Photo"><i class='bx bx-camera'></i></button>
-            </div>
 
-            <div class="px-1 text-center">
-              <h4 class="font-bold text-slate-800 truncate text-sm mb-0.5">${esc(p.name)}</h4>
-              <p class="text-xs text-slate-500 font-medium mb-2">${esc(p.price || 'On Request')}</p>
-              
-              <!-- Tag Badges -->
-              <div class="flex flex-wrap justify-center gap-1">
+              <!-- Tags Overlay -->
+              <div class="absolute top-10 left-2 right-2 flex flex-wrap gap-1 pointer-events-none">
                 ${(p.tag || '').split(',').map(t => t.trim()).filter(t => t).map(t => `
-                  <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[9px] font-bold border border-emerald-100 uppercase tracking-tight">
+                  <span class="px-1.5 py-0.5 rounded bg-white/90 backdrop-blur text-emerald-800 text-[8px] font-black uppercase shadow-sm border border-emerald-100">
                     ${esc(t)}
                   </span>
                 `).join('')}
               </div>
+            </div>
+
+            <div class="px-1 text-center">
+              <h4 class="font-bold text-slate-800 truncate text-sm mb-0.5">${esc(p.name)}</h4>
+              <p class="text-xs text-slate-500 font-medium">${esc(p.price || 'On Request')}</p>
             </div>
           </div>
         `).join('')}
