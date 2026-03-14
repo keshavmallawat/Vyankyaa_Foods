@@ -1,4 +1,4 @@
-import { db, auth, collection, getDocs, query, orderBy, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, updateDoc, deleteDoc } from './firebase-config.js';
+import { db, auth, collection, getDocs, query, orderBy, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, updateDoc, deleteDoc, storage, ref, uploadBytesResumable, getDownloadURL } from './firebase-config.js';
 import { fetchAllProducts, saveProduct as fsaveProduct, deleteProductById, updateProductStatus } from './products-service.js';
 
 // ════════════════════════════════════════════════
@@ -481,7 +481,17 @@ function renderProductsTable() {
     <tr class="hover:bg-slate-50 transition">
       <td class="px-5 py-3">
         <div class="flex items-center gap-3">
-          <img src="${esc(p.image||'')}" alt="" class="w-10 h-10 object-cover rounded-lg bg-slate-100" onerror="this.style.display='none'">
+          <div class="relative flex flex-col items-center">
+            <div class="relative w-10 h-10 group cursor-pointer" onclick="document.getElementById('img-upload-${p.id}').click()" title="Click to update photo">
+              <img id="img-display-${p.id}" src="${esc(p.imageUrl || p.image || '')}" alt="" class="w-10 h-10 object-cover rounded-lg bg-slate-900 border border-slate-700" onerror="this.src='';this.onerror=null;">
+              <div id="img-overlay-${p.id}" class="absolute inset-0 bg-slate-900/70 rounded-lg flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <i class='bx bx-camera text-white text-lg' id="img-icon-${p.id}"></i>
+                <span id="img-progress-${p.id}" class="text-white text-[10px] font-bold hidden">0%</span>
+              </div>
+              <input type="file" id="img-upload-${p.id}" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="window.handleProductImageUpload(event, '${p.id}')">
+            </div>
+            <div id="img-error-${p.id}" class="absolute top-11 -left-4 w-20 text-center text-red-500 text-[9px] leading-tight opacity-0 transition-opacity pointer-events-none"></div>
+          </div>
           <div class="font-semibold text-slate-800">${esc(p.name)}</div>
         </div>
       </td>
@@ -525,6 +535,77 @@ window.editProduct = function(id) {
   document.getElementById('prodStatus').value     = p.status || 'available';
   document.getElementById('prodOrder').value      = p.order || 99;
   openModal('productModal');
+};
+
+// ════════════════════════════════════════════════
+// IMAGE UPLOAD (Storage)
+// ════════════════════════════════════════════════
+window.handleProductImageUpload = function(e, productId) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+  const errorEl = document.getElementById(`img-error-${productId}`);
+  const showError = (msg) => {
+    errorEl.textContent = msg;
+    errorEl.style.opacity = '1';
+    setTimeout(() => errorEl.style.opacity = '0', 3000);
+    e.target.value = '';
+  };
+
+  if (!validTypes.includes(file.type)) return showError("JPG, PNG or WebP only");
+  if (file.size > 5 * 1024 * 1024) return showError("Under 5MB only");
+
+  const inputEl    = e.target;
+  const overlayEl  = document.getElementById(`img-overlay-${productId}`);
+  const iconEl     = document.getElementById(`img-icon-${productId}`);
+  const progressEl = document.getElementById(`img-progress-${productId}`);
+  const displayEl  = document.getElementById(`img-display-${productId}`);
+
+  inputEl.disabled = true;
+  overlayEl.style.opacity = '1';
+  iconEl.classList.add('hidden');
+  progressEl.classList.remove('hidden');
+  progressEl.textContent = '0%';
+
+  const uploadRef = ref(storage, `products/${productId}/main.jpg`);
+  const uploadTask = uploadBytesResumable(uploadRef, file);
+
+  uploadTask.on('state_changed', 
+    (snapshot) => {
+      const prog = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      progressEl.textContent = Math.round(prog) + '%';
+    },
+    (err) => {
+      showError("Failed. Try again.");
+      inputEl.disabled = false;
+      overlayEl.style.opacity = '';
+      iconEl.classList.remove('hidden');
+      progressEl.classList.add('hidden');
+    },
+    async () => {
+      try {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        await updateDoc(doc(db, 'products', productId), { imageUrl: url });
+        displayEl.src = url;
+        progressEl.textContent = '✓';
+        progressEl.classList.replace('text-[10px]', 'text-sm');
+        setTimeout(() => {
+          inputEl.disabled = false;
+          overlayEl.style.opacity = '';
+          iconEl.classList.remove('hidden');
+          progressEl.classList.add('hidden');
+          progressEl.classList.replace('text-sm', 'text-[10px]');
+          // Also update the local cached item so a rerender doesn't lose it
+          const p = window._adminProducts.find(x => x.id === productId);
+          if (p) p.imageUrl = url;
+        }, 2000);
+      } catch (err) {
+        showError("Failed saving URL.");
+        inputEl.disabled = false;
+      }
+    }
+  );
 };
 
 window.deleteProduct = function(id) {

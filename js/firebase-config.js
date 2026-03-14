@@ -4,6 +4,7 @@ import {
   serverTimestamp, doc, updateDoc, setDoc, deleteDoc, getDoc, writeBatch
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -28,6 +29,7 @@ try {
 
 const db   = getFirestore(app, "vyankyaa-quotations");
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 // Export for use in other scripts
-export { db, auth, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, updateDoc, setDoc, deleteDoc, getDoc, writeBatch };
+export { db, auth, storage, ref, uploadBytesResumable, getDownloadURL, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, updateDoc, setDoc, deleteDoc, getDoc, writeBatch };

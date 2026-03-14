@@ -555,7 +555,7 @@
     return `
       <div class="product-card reveal" data-category="${escHtml(p.category)}">
         <div class="product-img">
-          <img src="${escHtml(p.image || 'images/safflower-oil.jpg')}"
+          <img src="${escHtml(p.imageUrl || p.image || 'images/safflower-oil.jpg')}"
                alt="${escHtml(p.name)}"
                loading="lazy"
                onerror="this.src='images/safflower-oil.jpg'"/>
