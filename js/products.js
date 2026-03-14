@@ -113,13 +113,14 @@ function init() {
         };
 
         try {
-            // 1. Send email via EmailJS
-            if (typeof emailjs !== 'undefined') {
-                await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams);
-            }
-
-            // 2. Save backup to Firebase
+            // 1. Save to Firebase FIRST — this is the source of truth
             await addDoc(collection(db, 'quotations'), firebaseData);
+
+            // 2. Try to send email — non-blocking, failure is silent
+            if (typeof emailjs !== 'undefined') {
+                emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams)
+                    .catch(err => console.warn('EmailJS non-critical:', err));
+            }
 
             // 3. Show success UI
             const content = quotationForm.parentElement;
@@ -140,7 +141,7 @@ function init() {
 
         } catch (error) {
             console.error('Submission Error:', error);
-            showGlobalError(btn, 'Failed to send request. Please try again or contact us directly.');
+            showGlobalError(btn, 'Failed to save your request. Please try again.');
             btn.disabled = false;
             btn.textContent = originalText;
         }

@@ -113,28 +113,28 @@ function waitForEmailJS(callback) {
         };
 
         try {
-            // 1. Send Email (EmailJS)
+            // 1. Save to Firebase FIRST — source of truth
+            await addDoc(collection(db, "contacts"), firebaseData);
+
+            // 2. Try to email — non-blocking, failure is silent
             if (typeof emailjs !== 'undefined') {
-                await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams);
+                emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams)
+                    .catch(err => console.warn('EmailJS non-critical:', err));
             }
 
-            // 2. Save to Firebase (Backup/Admin)
-            await addDoc(collection(db, "contacts"), firebaseData);
-            
             // Success State
             submitBtn.style.display = 'none';
             document.getElementById('formSuccess').style.display = 'block';
             document.getElementById('formSuccess').scrollIntoView({ behavior:'smooth', block:'center' });
         } catch (error) {
             console.error('Submission Error:', error);
+            // Remove old error if present
+            submitBtn.parentElement.querySelectorAll('.global-error-msg').forEach(e => e.remove());
             const globalError = document.createElement('p');
-            globalError.className = 'error-msg';
-            globalError.style.color = 'var(--clay)';
-            globalError.style.fontSize = '12px';
-            globalError.style.marginTop = '12px';
+            globalError.className = 'global-error-msg';
+            globalError.style.cssText = 'color:var(--clay);font-size:12px;margin-top:12px;';
             globalError.textContent = 'Failed to send message. Please try again or email us directly.';
             submitBtn.parentElement.appendChild(globalError);
-            
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnText;
         }
