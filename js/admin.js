@@ -597,16 +597,16 @@ function renderProductsTable() {
                   ${p.status || 'AVAILABLE'}
                 </button>
               </div>
+
+              <!-- Quick Image Upload -->
+              <input type="file" id="img-upload-${p.id}" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="window.handleProductImageUpload(event, '${p.id}')">
+              <button onclick="document.getElementById('img-upload-${p.id}').click()" class="absolute top-2 left-2 w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100 z-10" title="Change Photo"><i class='bx bx-camera'></i></button>
             </div>
 
             <div class="px-1 text-center">
               <h4 class="font-bold text-slate-800 truncate text-sm mb-0.5">${esc(p.name)}</h4>
               <p class="text-xs text-slate-500 font-medium">${esc(p.price || 'On Request')}</p>
             </div>
-            
-            <!-- Quick Image Upload -->
-            <input type="file" id="img-upload-${p.id}" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="window.handleProductImageUpload(event, '${p.id}')">
-            <button onclick="document.getElementById('img-upload-${p.id}').click()" class="absolute bottom-20 right-4 w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100"><i class='bx bx-camera'></i></button>
           </div>
         `).join('')}
       </div>
