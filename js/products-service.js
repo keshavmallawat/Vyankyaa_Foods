@@ -27,10 +27,9 @@ export const FALLBACK_PRODUCTS = [
 ];
 
 export function sortProducts(list) {
-  const catPriority = { oils: 0, grains: 1, cakes: 2 };
   return list.sort((a, b) => {
-    const ca = catPriority[a.category] ?? 99;
-    const cb = catPriority[b.category] ?? 99;
+    const ca = a.categoryOrder ?? 99;
+    const cb = b.categoryOrder ?? 99;
     if (ca !== cb) return ca - cb;
     return (a.order || 99) - (b.order || 99);
   });

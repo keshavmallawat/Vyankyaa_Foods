@@ -223,12 +223,25 @@ document.getElementById('prodCategorySelect')?.addEventListener('change', functi
     wrap.style.display = 'block';
     document.getElementById('prodCategory').value = '';
     document.getElementById('prodCatLabel').value = '';
-    document.getElementById('prodCategory').focus();
+    document.getElementById('prodCatOrder').value = '99';
+    document.getElementById('prodCatLabel').focus();
   } else {
     wrap.style.display = 'none';
     const opt = this.options[this.selectedIndex];
     document.getElementById('prodCategory').value = this.value;
     document.getElementById('prodCatLabel').value = opt.getAttribute('data-label') || '';
+    
+    // Find existing order for this category
+    const p = getAdminProducts().find(x => x.category === this.value);
+    document.getElementById('prodCatOrder').value = p ? (p.categoryOrder || 99) : 99;
+  }
+});
+
+// Auto-Apply Category Key from Label
+document.getElementById('prodCatLabel')?.addEventListener('input', function() {
+  if (document.getElementById('prodCategorySelect')?.value === 'NEW_CAT') {
+    const slug = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    document.getElementById('prodCategory').value = slug;
   }
 });
 
@@ -562,6 +575,7 @@ window.editProduct = function(id) {
   document.getElementById('prodName').value       = p.name;
   document.getElementById('prodCategory').value   = p.category || (p.categoryLabel||'').toLowerCase().replace(/[^a-z]/g,'') || '';
   document.getElementById('prodCatLabel').value   = p.categoryLabel || '';
+  document.getElementById('prodCatOrder').value   = p.categoryOrder || 99;
   document.getElementById('prodPrice').value      = p.price || '';
   document.getElementById('prodDesc').value       = p.description || '';
   document.getElementById('prodImage').value      = p.image || '';
@@ -680,6 +694,7 @@ window.saveProduct = async function() {
   const name    = document.getElementById('prodName').value.trim();
   const cat     = document.getElementById('prodCategory').value.trim();
   const catLbl  = document.getElementById('prodCatLabel')?.value.trim() || cat;
+  const catOrd  = parseInt(document.getElementById('prodCatOrder')?.value || '99', 10);
   const priceV  = document.getElementById('prodPrice').value.trim();
   const desc    = document.getElementById('prodDesc')?.value.trim() || '';
   const image   = document.getElementById('prodImage')?.value.trim() || '';
@@ -689,12 +704,15 @@ window.saveProduct = async function() {
   if (!name || !cat) { window.showToast('Name and category are required', 'error'); if(saveBtn){saveBtn.textContent='Save Product';saveBtn.disabled=false;} return; }
   // Generate ID from name if new
   const id = rawId || name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  const product = { id, name, category:cat, categoryLabel:catLbl, price:priceV||'On Request', description:desc, image, tag, status, order };
+  const product = { 
+    id, name, category:cat, categoryLabel:catLbl, categoryOrder:catOrd, 
+    price:priceV||'On Request', description:desc, image, tag, status, order 
+  };
   try {
     await fsaveProduct(product);
     const idx = window._adminProducts.findIndex(p => p.id === id);
     if (idx > -1) window._adminProducts[idx] = product; else window._adminProducts.push(product);
-    window._adminProducts.sort((a,b) => (a.order||99)-(b.order||99));
+    window._adminProducts = sortProducts(window._adminProducts);
     renderProductsTable();
     closeModal('productModal');
     window.showToast(rawId ? 'Product updated on website!' : 'Product added to website!', 'success');
@@ -704,7 +722,7 @@ window.saveProduct = async function() {
 
 window.openAddProductModal = function() {
   document.getElementById('productModalTitle').textContent = 'Add Product';
-  ['prodEditId','prodName','prodCategory','prodCatLabel','prodPrice','prodDesc','prodImage','prodTag','prodOrder'].forEach(id => {
+  ['prodEditId','prodName','prodCategory','prodCatLabel','prodCatOrder','prodPrice','prodDesc','prodImage','prodTag','prodOrder'].forEach(id => {
     const el = document.getElementById(id); if(el) el.value = '';
   });
   const ps = document.getElementById('prodStatus'); if(ps) ps.value = 'available';
