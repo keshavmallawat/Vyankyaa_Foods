@@ -16,10 +16,11 @@
 /* HERO */
 .hero {
   min-height: 100vh;
-  display: grid; grid-template-columns: 4fr 6fr;
-  align-items: center; gap: 40px;
-  padding: 130px 60px 100px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  padding: 140px 0 0;
   position: relative; overflow: hidden;
+  background: var(--cream);
 }
 .hero::before {
   content:''; position:absolute; inset:0;
@@ -27,13 +28,14 @@
   pointer-events:none;
 }
 .hero-left {
-  display:flex; flex-direction:column; align-items:flex-start;
-  position:relative; z-index:1;
+  display:flex; flex-direction:column; align-items:center;
+  position:relative; z-index:10; text-align: center;
+  margin-bottom: 60px; padding: 0 40px;
 }
 .hero-badge {
   display:inline-flex; align-items:center; gap:10px;
   border:1px solid var(--sand); padding:8px 18px;
-  border-radius:100px; margin-bottom:30px;
+  border-radius:100px; margin-bottom:24px;
   font-size:11px; letter-spacing:3px; text-transform:uppercase;
   color:var(--clay);
   opacity:0; animation: fadeUp 0.8s 0.2s ease forwards;
@@ -45,41 +47,63 @@
 }
 .hero-title {
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(48px,5.5vw,80px); font-weight:300; line-height:1.0;
-  color:var(--earth); margin-bottom:26px;
+  font-size:clamp(52px,7vw,110px); font-weight:300; line-height:0.9;
+  color:var(--earth); margin-bottom:22px;
   opacity:0; animation: fadeUp 0.9s 0.4s ease forwards;
 }
-.hero-title em   { font-style:italic; color:var(--clay); display:block; }
-.hero-title .outline { display:block; -webkit-text-stroke:1.5px var(--earth); color:transparent; }
+.hero-title em   { font-style:italic; color:var(--clay); display:inline; }
+.hero-title .outline { display:inline; -webkit-text-stroke:1.5px var(--earth); color:transparent; }
 .hero-desc {
-  font-size:15px; line-height:1.8; color:var(--light-text);
-  max-width:440px; margin-bottom:42px;
+  font-size:16px; line-height:1.7; color:var(--light-text);
+  max-width:600px; margin-bottom:32px;
   opacity:0; animation: fadeUp 0.9s 0.6s ease forwards;
 }
 .hero-actions {
-  display:flex; align-items:center; gap:28px; flex-wrap:wrap;
+  display:flex; align-items:center; gap:28px; justify-content: center;
   opacity:0; animation: fadeUp 0.9s 0.8s ease forwards;
 }
 .hero-right {
-  position:relative; 
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 16px; perspective: 1500px;
-  opacity:0; animation: fadeIn 1.2s 0.5s ease forwards;
+  position:relative; width: 100%;
+  height: 600px; overflow: hidden;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 20px; padding: 0 40px;
+  perspective: 2000px;
+  opacity:0; animation: fadeIn 1.5s 0.8s ease forwards;
+}
+.hero-right::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(to bottom, var(--cream) 0%, transparent 15%, transparent 85%, var(--cream) 100%);
+  pointer-events: none; z-index: 5;
 }
 
-/* TILE WALL - ZIGZAG */
+/* CONTINUOUS MARQUEE COLS */
+.tile-col {
+  display: flex; flex-direction: column; gap: 20px;
+}
+.tile-track {
+  display: flex; flex-direction: column; gap: 20px;
+  will-change: transform; animation-duration: 40s;
+  animation-iteration-count: infinite; animation-timing-function: linear;
+}
+.tile-col.down .tile-track { animation-name: scrollDown; }
+.tile-col.up .tile-track { animation-name: scrollUp; }
+.hero-right:hover .tile-track { animation-play-state: paused; }
+
+@keyframes scrollUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+@keyframes scrollDown {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
 .hero-tile {
-  position: relative; width: 100%; height: 210px;
+  position: relative; width: 100%; height: 280px;
   transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+  cursor: pointer; flex-shrink: 0;
 }
 .hero-tile:hover { transform: rotateY(180deg); }
-
-/* Asymmetrical Spans & Offsets */
-.hero-tile.tall { height: 320px; }
-.hero-tile.small { height: 160px; }
-.hero-right .hero-tile:nth-child(3n+2) { margin-top: 40px; }
-.hero-right .hero-tile:nth-child(3n+3) { margin-top: 20px; }
 
 .tile-front, .tile-back {
   position: absolute; inset: 0; backface-visibility: hidden;
@@ -244,14 +268,11 @@
 
 /* MOBILE */
 @media (max-width:860px) {
-  .hero { grid-template-columns:1fr; padding:100px 20px 60px; gap:44px; min-height:auto; text-align:center; }
-  .hero-left { align-items:center; }
-  .hero-title { font-size:clamp(44px,10vw,72px); line-height:1.1; }
-  .hero-desc { margin:0 auto 32px; }
-  .hero-actions { justify-content:center; width:100%; }
-  .hero-right { height:auto; width:100%; max-width:600px; margin:0 auto; gap: 12px; grid-template-columns: repeat(2, 1fr); }
-  .hero-tile, .hero-tile.tall, .hero-tile.small { height: 160px; margin-top: 0 !important; }
-  .tile-back p { font-size: 13px; padding: 10px; }
+  .hero { padding-top: 120px; }
+  .hero-right { grid-template-columns: repeat(2, 1fr); height: 500px; padding: 0 20px; }
+  .tile-col:nth-child(3), .tile-col:nth-child(4) { display: none; }
+  .hero-tile { height: 220px; }
+  .tile-back p { font-size: 14px; }
   .about-preview { grid-template-columns:1fr; padding:70px 20px; gap:44px; }
   .about-img-wrap { height:360px; }
   .feat-cats-grid { grid-template-columns:1fr; }
@@ -298,71 +319,62 @@
     </div>
   </div>
   <div class="hero-right">
-    <!-- TILE 1: Landscape (TALL) -->
-    <div class="hero-tile tall">
-      <div class="tile-front"><img src="images/hero_landscape.png" alt="Agriculture"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bx-map-alt'></i></div>
-        <p>"From Maharashtra's heartland to global destinations."</p>
+    <!-- COLUMN 1: DOWN -->
+    <div class="tile-col down">
+      <div class="tile-track">
+        <div class="hero-tile"><div class="tile-front"><img src="images/hero_landscape.png" alt="Agriculture"/></div><div class="tile-back"><div class="icon"><i class='bx bx-map-alt'></i></div><p>"Rooted in Maharashtra's fertile soil."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_spices.png" alt="Spices"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-pepper-hot'></i></div><p>"Freshly sourced Indian spices."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_rice.png" alt="Rice"/></div><div class="tile-back"><div class="icon"><i class='bx bx-bowl-hot'></i></div><p>"Premium long-grain Basmati."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_farmers.png" alt="Farmers"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-user-voice'></i></div><p>"Empowering local farmers."</p></div></div>
+        <!-- Duplicates -->
+        <div class="hero-tile"><div class="tile-front"><img src="images/hero_landscape.png" alt="Agriculture"/></div><div class="tile-back"><div class="icon"><i class='bx bx-map-alt'></i></div><p>"Rooted in Maharashtra's fertile soil."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_spices.png" alt="Spices"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-pepper-hot'></i></div><p>"Freshly sourced Indian spices."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_rice.png" alt="Rice"/></div><div class="tile-back"><div class="icon"><i class='bx bx-bowl-hot'></i></div><p>"Premium long-grain Basmati."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_farmers.png" alt="Farmers"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-user-voice'></i></div><p>"Empowering local farmers."</p></div></div>
       </div>
     </div>
-    <!-- TILE 2: Spices -->
-    <div class="hero-tile">
-      <div class="tile-front"><img src="images/tile_spices.png" alt="Spices"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bxs-pepper-hot'></i></div>
-        <p>"Authentic Indian spices, aromatic and pure."</p>
+    <!-- COLUMN 2: UP -->
+    <div class="tile-col up">
+      <div class="tile-track">
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_oil.png" alt="Oil"/></div><div class="tile-back"><div class="icon"><i class='bx bx-droplet'></i></div><p>"Pure cold-pressed oils."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_sugar.png" alt="Sugar"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-coin-stack'></i></div><p>"Certified refined sugar."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_wheat.png" alt="Wheat"/></div><div class="tile-back"><div class="icon"><i class='bx bx-sun'></i></div><p>"Golden harvest grains."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_logistics.png" alt="Logistics"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-ship'></i></div><p>"Seamless global exports."</p></div></div>
+        <!-- Duplicates -->
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_oil.png" alt="Oil"/></div><div class="tile-back"><div class="icon"><i class='bx bx-droplet'></i></div><p>"Pure cold-pressed oils."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_sugar.png" alt="Sugar"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-coin-stack'></i></div><p>"Certified refined sugar."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_wheat.png" alt="Wheat"/></div><div class="tile-back"><div class="icon"><i class='bx bx-sun'></i></div><p>"Golden harvest grains."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_logistics.png" alt="Logistics"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-ship'></i></div><p>"Seamless global exports."</p></div></div>
       </div>
     </div>
-    <!-- TILE 3: Farmers (TALL) -->
-    <div class="hero-tile tall">
-      <div class="tile-front"><img src="images/tile_farmers.png" alt="Farmers"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bxs-user-detail'></i></div>
-        <p>"Directly partnering with 200+ local farm clusters."</p>
+    <!-- COLUMN 3: DOWN -->
+    <div class="tile-col down">
+      <div class="tile-track">
+        <div class="hero-tile"><div class="tile-front"><img src="images/hero_produce.png" alt="Produce"/></div><div class="tile-back"><div class="icon"><i class='bx bx-box'></i></div><p>"Sorted with utmost care."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_cake.png" alt="Cake"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-factory'></i></div><p>"Nutrient-rich feed cakes."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_spices.png" alt="Spices"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-award'></i></div><p>"Export quality standards."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_farmers.png" alt="Farmers"/></div><div class="tile-back"><div class="icon"><i class='bx bx-heart'></i></div><p>"Sustainable partnerships."</p></div></div>
+        <!-- Duplicates -->
+        <div class="hero-tile"><div class="tile-front"><img src="images/hero_produce.png" alt="Produce"/></div><div class="tile-back"><div class="icon"><i class='bx bx-box'></i></div><p>"Sorted with utmost care."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_cake.png" alt="Cake"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-factory'></i></div><p>"Nutrient-rich feed cakes."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_spices.png" alt="Spices"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-award'></i></div><p>"Export quality standards."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_farmers.png" alt="Farmers"/></div><div class="tile-back"><div class="icon"><i class='bx bx-heart'></i></div><p>"Sustainable partnerships."</p></div></div>
       </div>
     </div>
-    <!-- TILE 4: Oil Pouring (SMALL) -->
-    <div class="hero-tile small">
-      <div class="tile-front"><img src="images/tile_oil.png" alt="Pure Oil"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bx-droplet'></i></div>
-        <p>"Cold-pressed oils, rich in nutrition."</p>
+    <!-- COLUMN 4: UP -->
+    <div class="tile-col up">
+      <div class="tile-track">
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_sugar.png" alt="Sugar"/></div><div class="tile-back"><div class="icon"><i class='bx bx-globe'></i></div><p>"Worldwide delivery."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_wheat.png" alt="Wheat"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-sun'></i></div><p>"Direct from field to port."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_rice.png" alt="Rice"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-grid'></i></div><p>"Vast product catalog."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_logistics.png" alt="Logistics"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-truck'></i></div><p>"Reliable freight network."</p></div></div>
+        <!-- Duplicates -->
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_sugar.png" alt="Sugar"/></div><div class="tile-back"><div class="icon"><i class='bx bx-globe'></i></div><p>"Worldwide delivery."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_wheat.png" alt="Wheat"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-sun'></i></div><p>"Direct from field to port."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_rice.png" alt="Rice"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-grid'></i></div><p>"Vast product catalog."</p></div></div>
+        <div class="hero-tile"><div class="tile-front"><img src="images/tile_logistics.png" alt="Logistics"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-truck'></i></div><p>"Reliable freight network."</p></div></div>
       </div>
     </div>
-    <!-- TILE 5: Grain/Produce -->
-    <div class="hero-tile">
-      <div class="tile-front"><img src="images/hero_produce.png" alt="Produce"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bx-selection'></i></div>
-        <p>"Premium grains sorted with utmost care."</p>
-      </div>
-    </div>
-    <!-- TILE 6: Oil Cakes (SMALL) -->
-    <div class="hero-tile small">
-      <div class="tile-front"><img src="images/tile_cake.png" alt="Oil Cake"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bxs-factory'></i></div>
-        <p>"Nutrient-dense cakes for the feed industry."</p>
-      </div>
-    </div>
-    <!-- TILE 7: Sugar -->
-    <div class="hero-tile">
-      <div class="tile-front"><img src="images/tile_sugar.png" alt="Sugar"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bxs-coin-stack'></i></div>
-        <p>"Globally certified refined and raw sugar."</p>
-      </div>
-    </div>
-    <!-- TILE 8: Logistics -->
-    <div class="hero-tile">
-      <div class="tile-front"><img src="images/tile_logistics.png" alt="Logistics"/></div>
-      <div class="tile-back">
-        <div class="icon"><i class='bx bxs-ship'></i></div>
-        <p>"Seamless delivery across 50+ nations."</p>
-      </div>
-    </div>
-
   </div>
 </section>
 
