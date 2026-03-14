@@ -63,6 +63,9 @@ function populateCategorySelect() {
     '<option value="NEW_CAT" class="font-bold text-emerald-600">+ Add New Category...</option>';
 }
 
+// Visual Catalogue State
+let _isSorting = false;
+
 // ════════════════════════════════════════════════
 // AUTHENTICATION
 // ════════════════════════════════════════════════
@@ -510,52 +513,154 @@ window.tagLead = function(id, tag) {
 // ════════════════════════════════════════════════
 // PRODUCTS TABLE + CRUD (Firestore-backed)
 // ════════════════════════════════════════════════
+// ════════════════════════════════════════════════
+// NEW: VISUAL CATALOGUE (Categorized Cards + Drag & Drop)
+// ════════════════════════════════════════════════
 function renderProductsTable() {
-  const tb = document.getElementById('productsTable');
-  if (!tb) return;
+  const container = document.getElementById('categoryContainer');
+  if (!container) return;
   const products = getAdminProducts();
-  const statusStyles = {
-    available:'background:#dcfce7;color:#15803d',
-    limited:  'background:#ffedd5;color:#c2410c',
-    unavailable:'background:#fee2e2;color:#dc2626'
-  };
+  
   if (!products.length) {
-    tb.innerHTML = '<tr><td colspan="6" class="px-5 py-8 text-center text-slate-400"><i class="bx bx-loader-alt bx-spin mr-2"></i>Loading products…</td></tr>';
+    container.innerHTML = '<div class="py-20 text-center text-slate-400 italic"><i class="bx bx-loader-alt bx-spin text-4xl mb-3"></i><p>Loading products…</p></div>';
     return;
   }
-  const catLabel = { oils:'Premium Oils', grains:'Grains & Sugar', cakes:'Oil Seed Cakes', spices:'Spices', seeds:'Seeds' };
-  tb.innerHTML = products.map(p => `
-    <tr class="hover:bg-slate-50 transition">
-      <td class="px-5 py-3">
+
+  // 1. Group products by Category
+  const categories = {};
+  products.forEach(p => {
+    const cid = p.category || 'uncategorized';
+    if (!categories[cid]) {
+      categories[cid] = {
+        id: cid,
+        label: p.categoryLabel || cid.charAt(0).toUpperCase() + cid.slice(1),
+        order: p.categoryOrder || 99,
+        items: []
+      };
+    }
+    categories[cid].items.push(p);
+  });
+
+  // 2. Sort categories by order
+  const sortedCategories = Object.values(categories).sort((a,b) => a.order - b.order);
+
+  // 3. Render HTML
+  container.innerHTML = sortedCategories.map(cat => `
+    <div class="category-block bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" data-id="${esc(cat.id)}">
+      <div class="category-header bg-slate-50 px-6 py-4 border-b flex justify-between items-center cursor-move">
         <div class="flex items-center gap-3">
-          <div class="relative flex flex-col items-center">
-            <div class="relative w-10 h-10 group cursor-pointer" onclick="document.getElementById('img-upload-${p.id}').click()" title="Click to update photo">
-              <img id="img-display-${p.id}" src="${esc(p.imageUrl || p.image || '')}" alt="" class="w-10 h-10 object-cover rounded-lg bg-slate-900 border border-slate-700" onerror="this.src='';this.onerror=null;">
-              <div id="img-overlay-${p.id}" class="absolute inset-0 bg-slate-900/70 rounded-lg flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <i class='bx bx-camera text-white text-lg' id="img-icon-${p.id}"></i>
-                <span id="img-progress-${p.id}" class="text-white text-[10px] font-bold hidden">0%</span>
-              </div>
-              <input type="file" id="img-upload-${p.id}" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="window.handleProductImageUpload(event, '${p.id}')">
-            </div>
-            <div id="img-error-${p.id}" class="absolute top-11 -left-4 w-20 text-center text-red-500 text-[9px] leading-tight opacity-0 transition-opacity pointer-events-none"></div>
-          </div>
-          <div class="font-semibold text-slate-800">${esc(p.name)}</div>
+          <i class='bx bx-dots-vertical-rounded text-slate-300 text-xl'></i>
+          <h3 class="font-bold text-slate-800 flex items-center gap-2">
+            ${esc(cat.label)} 
+            <span class="bg-slate-200 text-slate-600 text-[10px] px-2 py-0.5 rounded-full uppercase tracking-tighter">${cat.items.length} Items</span>
+          </h3>
         </div>
-      </td>
-      <td class="px-5 py-3 text-slate-500 text-xs">${esc(catLabel[p.category] || p.category || p.categoryLabel || '—')}</td>
-      <td class="px-5 py-3 text-slate-700">${esc(p.price || 'On Request')}</td>
-      <td class="px-5 py-3"><span class="status-badge" style="${statusStyles[p.status]||''}">${p.status||'—'}</span></td>
-      <td class="px-5 py-3">
-        <select onchange="window.changeProductStatus('${esc(p.id)}', this.value)" class="text-xs border border-slate-200 rounded-lg px-2 py-1 outline-none bg-white">
-          ${['available','limited','unavailable'].map(s => `<option value="${s}" ${p.status===s?'selected':''}>${s.charAt(0).toUpperCase()+s.slice(1)}</option>`).join('')}
-        </select>
-      </td>
-      <td class="px-5 py-3 text-right">
-        <button class="action-btn btn-view mr-1" data-action="edit-prod" data-id="${esc(p.id)}"><i class='bx bx-edit'></i> Edit</button>
-        <button class="action-btn btn-delete" data-action="del-prod" data-id="${esc(p.id)}"><i class='bx bx-trash'></i></button>
-      </td>
-    </tr>`).join('');
+        <div class="flex items-center gap-2">
+           <button onclick="window.quickAddProduct('${esc(cat.id)}', '${esc(cat.label)}')" class="text-[11px] font-bold text-emerald-600 hover:bg-emerald-100 px-3 py-1.5 rounded-lg border border-emerald-200 bg-white transition-all">+ Quick Add</button>
+        </div>
+      </div>
+      
+      <div class="product-grid p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" data-cat="${esc(cat.id)}">
+        ${cat.items.sort((a,b)=>(a.order||99)-(b.order||99)).map(p => `
+          <div class="product-card group relative bg-white border border-slate-100 rounded-xl p-3 flex flex-col gap-3 hover:shadow-xl hover:border-emerald-200 transition-all cursor-move" data-id="${esc(p.id)}">
+            <div class="relative w-full aspect-square bg-slate-100 rounded-lg overflow-hidden border border-slate-50">
+              <img src="${esc(p.imageUrl || p.image || '')}" alt="" class="w-full h-full object-cover transition-transform group-hover:scale-105" onerror="this.src='';">
+              
+              <!-- Quick Actions Overlay -->
+              <div class="absolute inset-x-2 bottom-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 animate-in fade-in slide-in-from-bottom-2">
+                <button onclick="window.editProduct('${esc(p.id)}')" class="flex-1 bg-white/95 backdrop-blur shadow-lg py-2 rounded-lg text-slate-700 hover:text-emerald-600 transition-colors flex items-center justify-center gap-1.5 text-xs font-bold"><i class='bx bx-edit'></i> Edit</button>
+                <button onclick="window.deleteProduct('${esc(p.id)}')" class="bg-white/95 backdrop-blur shadow-lg w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-500 transition-colors"><i class='bx bx-trash'></i></button>
+              </div>
+
+              <!-- Status Badge -->
+              <div class="absolute top-2 right-2">
+                <span class="text-[9px] font-black uppercase px-2 py-1 rounded bg-white/90 backdrop-blur shadow-sm ${p.status==='available'?'text-emerald-600':'text-red-500'}">
+                  ${p.status || 'AVAILABLE'}
+                </span>
+              </div>
+            </div>
+
+            <div class="px-1 text-center">
+              <h4 class="font-bold text-slate-800 truncate text-sm mb-0.5">${esc(p.name)}</h4>
+              <p class="text-xs text-slate-500 font-medium">${esc(p.price || 'On Request')}</p>
+            </div>
+            
+            <!-- Quick Image Upload -->
+            <input type="file" id="img-upload-${p.id}" accept="image/jpeg,image/png,image/webp" class="hidden" onchange="window.handleProductImageUpload(event, '${p.id}')">
+            <button onclick="document.getElementById('img-upload-${p.id}').click()" class="absolute bottom-20 right-4 w-7 h-7 bg-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100"><i class='bx bx-camera'></i></button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // 4. Initialize Drag & Drop
+  initSortable();
 }
+
+function initSortable() {
+  if (typeof Sortable === 'undefined') return;
+
+  // Reorder categories
+  const container = document.getElementById('categoryContainer');
+  if (container) {
+    Sortable.create(container, {
+      animation: 150,
+      handle: '.category-header',
+      ghostClass: 'opacity-40',
+      onEnd: async function() {
+        _isSorting = true;
+        const newOrder = this.toArray();
+        const updates = [];
+        newOrder.forEach((catId, index) => {
+          // Update all products in this category with new categoryOrder
+          getAdminProducts().filter(p => p.category === catId).forEach(p => {
+            p.categoryOrder = index + 1;
+            updates.push(window.fsaveProduct(p));
+          });
+        });
+        await Promise.all(updates);
+        window.showToast('Category layout saved!', 'success');
+        _isSorting = false;
+      }
+    });
+  }
+
+  // Reorder products within stacks
+  document.querySelectorAll('.product-grid').forEach(el => {
+    Sortable.create(el, {
+      animation: 150,
+      group: 'products',
+      ghostClass: 'opacity-40',
+      onEnd: async function(evt) {
+        _isSorting = true;
+        const targetCatId = evt.to.dataset.cat;
+        const newOrder = this.toArray();
+        const updates = [];
+        
+        newOrder.forEach((pid, index) => {
+          const p = getAdminProducts().find(x => x.id === pid);
+          if (p) {
+            p.order = index + 1;
+            p.category = targetCatId; // Handle moving between categories
+            updates.push(window.fsaveProduct(p));
+          }
+        });
+        await Promise.all(updates);
+        window.showToast('Product positions saved!', 'success');
+        _isSorting = false;
+      }
+    });
+  });
+}
+
+window.quickAddProduct = function(catId, catLabel) {
+  window.openAddProductModal();
+  document.getElementById('prodCategorySelect').value = catId;
+  // Trigger change event to set hidden fields
+  const event = new Event('change');
+  document.getElementById('prodCategorySelect').dispatchEvent(event);
+};
 
 window.changeProductStatus = async function(id, status) {
   try {

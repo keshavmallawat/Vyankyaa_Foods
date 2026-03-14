@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 <meta name="robots" content="noindex, nofollow">
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <style>
   body { font-family: 'Inter', sans-serif; background-color: #f8fafc; overflow: hidden; }
   .tab-content { display: none; }
@@ -272,15 +273,21 @@
 
     <!-- ── PRODUCTS ── -->
     <div id="dash-products" class="tab-content max-w-7xl mx-auto pb-10">
-      <div class="flex justify-between items-end mb-5">
-        <div><h2 class="text-2xl font-bold text-slate-900">Product Catalogue</h2><p class="text-sm text-slate-500">Manage your product listings</p></div>
-        <button onclick="openAddProductModal()" class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-emerald-700 flex items-center gap-2"><i class='bx bx-plus'></i> Add Product</button>
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-900">Product Management</h2>
+          <p class="text-sm text-slate-500">Drag items to reorder them or categories to rearrange the website layout.</p>
+        </div>
+        <button onclick="openAddProductModal()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-emerald-700 flex items-center gap-2 shadow-lg shadow-emerald-200 transition-all hover:-translate-y-0.5"><i class='bx bx-plus-circle text-lg'></i> Add New Product</button>
       </div>
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto"><table class="w-full text-sm">
-          <thead class="bg-slate-50 text-[10px] font-bold uppercase tracking-wider text-slate-500 border-b"><tr><th class="px-5 py-3 text-left">Product</th><th class="px-5 py-3 text-left">Category</th><th class="px-5 py-3 text-left">Price</th><th class="px-5 py-3 text-left">Status</th><th class="px-5 py-3 text-left">Change Status</th><th class="px-5 py-3 text-right">Actions</th></tr></thead>
-          <tbody id="productsTable" class="divide-y divide-slate-100 text-slate-700"></tbody>
-        </table></div>
+      
+      <!-- Visual Category Reordering Wrap -->
+      <div id="categoryContainer" class="space-y-10">
+        <!-- Categories will be rendered here dynamically -->
+        <div class="py-20 text-center text-slate-400 italic">
+          <i class='bx bx-loader-alt bx-spin text-4xl mb-3'></i>
+          <p>Initialising visual catalogue...</p>
+        </div>
       </div>
     </div>
 
