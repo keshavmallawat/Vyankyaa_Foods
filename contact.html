@@ -115,12 +115,24 @@
 .enq-tag::before { content:''; width:20px; height:1px; background:var(--sage); }
 
 @media (max-width:860px) {
-  .contact-main { grid-template-columns:1fr; padding:70px 20px; gap:48px; }
-  .form-row { grid-template-columns:1fr; }
+  .contact-main { grid-template-columns:1fr; padding:70px 20px; gap:48px; text-align:center; }
+  .contact-left { align-items:center; display:flex; flex-direction:column; }
+  .contact-info { text-align:left; width:100%; max-width:500px; }
+  .form-row { grid-template-columns:1fr; gap:18px; }
+  .submit-btn { width:100%; justify-content:center; }
   .map-section { padding:0 20px 70px; }
-  .map-wrap { height:300px; }
-  .enquiry-types { grid-template-columns:1fr; padding:60px 20px; }
+  .map-wrap { height:320px; }
+  .enquiry-types { grid-template-columns:1fr; padding:60px 20px; gap:24px; }
+  .enq-card { text-align:center; display:flex; flex-direction:column; align-items:center; }
+  .enq-tag { justify-content:center; }
 }
+@media (max-width:480px) {
+  .info-item { flex-direction:column; align-items:center; text-align:center; }
+  .info-icon { margin-bottom:12px; }
+  .social-row { justify-content:center; }
+  .social-link { width:100%; justify-content:center; }
+}
+
 </style>
 </head>
 <body>
@@ -327,12 +339,17 @@
       submitBtn.innerHTML = originalBtnText;
     }
   }
-
-  fetch('components/nav.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('mainNav');if(n){const o=()=>n.classList.toggle('scrolled',window.scrollY>50);window.addEventListener('scroll',o,{passive:true});o();}document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='contact.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
-  fetch('components/footer.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
-  
-  // Initialize Boxicons
-  boxicons.init();
 </script>
+
+<div id="footer-placeholder"></div>
+<script src="js/main.js"></script>
+<script>
+  loadComponent('nav-placeholder', 'components/nav.html');
+  loadComponent('footer-placeholder', 'components/footer.html');
+
+  // Initialize Boxicons
+  if (typeof boxicons !== 'undefined') boxicons.init();
+</script>
+
 </body>
 </html>

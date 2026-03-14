@@ -135,19 +135,29 @@
 .overlay-text { font-family:'Cormorant Garamond'; font-size:17px; color:var(--cream); font-style:italic; }
 
 @media (max-width:860px) {
-  .story { grid-template-columns:1fr; padding:70px 20px; gap:44px; }
-  .story-img { height:320px; }
-  .founder { grid-template-columns:1fr; padding:70px 20px; gap:32px; }
-  .founder-img { aspect-ratio:4/3; max-height:280px; }
+  .story { grid-template-columns:1fr; padding:70px 20px; gap:44px; text-align:center; }
+  .story-content { align-items:center; }
+  .story-img { height:360px; max-width:500px; margin:0 auto; width:100%; }
+  .founder { grid-template-columns:1fr; padding:70px 20px; gap:32px; text-align:center; }
+  .founder-img { aspect-ratio:4/3; max-height:300px; max-width:400px; margin:0 auto; }
+  .founder-quote { text-align:left; }
   .stats-strip { grid-template-columns:1fr 1fr; padding:40px 20px; }
   .stat-block { border-right:none; border-bottom:1px solid var(--sand); }
-  .stat-block:last-child { border-bottom:none; }
+  .stat-block:nth-child(even) { border-left: 1px solid var(--sand); }
+  .stat-block:nth-child(3), .stat-block:nth-child(4) { border-bottom:none; }
   .mission { padding:70px 20px; }
   .mission-grid { grid-template-columns:1fr; }
+  .mission-card { grid-template-columns: 1fr !important; gap: 24px; }
   .gallery { padding:0 20px 70px; grid-template-columns:1fr 1fr; grid-template-rows:auto; }
-  .gallery-item:first-child { grid-row:auto; grid-column:span 2; height:220px; }
-  .gallery-item { height:170px; }
+  .gallery-item:first-child { grid-row:auto; grid-column:span 2; height:240px; }
+  .gallery-item { height:180px; }
 }
+@media (max-width:600px) {
+  .stats-strip { grid-template-columns: 1fr; }
+  .stat-block:nth-child(even) { border-left: none; }
+  .stat-block { border-bottom: 1px solid var(--sand); }
+}
+
 </style>
 </head>
 <body>
@@ -305,8 +315,9 @@
 <div id="footer-placeholder"></div>
 <script src="js/main.js"></script>
 <script>
-  fetch('components/nav.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('mainNav');if(n){const o=()=>n.classList.toggle('scrolled',window.scrollY>50);window.addEventListener('scroll',o,{passive:true});o();}document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='about-us.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
-  fetch('components/footer.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
+  loadComponent('nav-placeholder', 'components/nav.html');
+  loadComponent('footer-placeholder', 'components/footer.html');
 </script>
+
 </body>
 </html>

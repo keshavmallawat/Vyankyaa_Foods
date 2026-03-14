@@ -102,18 +102,23 @@
 .qp-step p { font-size:14px; color:var(--light-text); line-height:1.75; }
 
 @media (max-width:860px) {
-  .certs-section { padding:70px 20px; }
-  .certs-grid { grid-template-columns:1fr; }
-  .cert-card { flex-direction:column; gap:20px; padding:28px; }
-  .trust-strip { grid-template-columns:1fr; padding:60px 20px; }
+  .certs-section { padding:70px 20px; text-align:center; }
+  .certs-grid { grid-template-columns:1fr; gap:20px; }
+  .cert-card { flex-direction:column; align-items:center; gap:24px; padding:32px 24px; text-align:center; }
+  .cert-icon-wrap { width:80px; height:80px; }
+  .cert-badge { justify-content:center; }
+  .trust-strip { grid-template-columns:1fr; padding:60px 20px; text-align:center; gap:40px; }
+  .trust-points { text-align:left; }
   .compliance { padding:70px 20px; }
-  .compliance-grid { grid-template-columns:1fr 1fr; }
+  .compliance-grid { grid-template-columns:1fr 1fr; gap:16px; }
   .quality-process { padding:70px 20px; }
-  .qp-grid { grid-template-columns:1fr; gap:24px; }
+  .qp-grid { grid-template-columns:1fr; gap:32px; }
 }
 @media (max-width:480px) {
   .compliance-grid { grid-template-columns:1fr; }
+  .trust-point { flex-direction:column; text-align:center; padding:24px; }
 }
+
 </style>
 </head>
 <body>
@@ -276,11 +281,12 @@
 <div id="footer-placeholder"></div>
 <script src="js/main.js"></script>
 <script>
-  fetch('components/nav.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{const n=document.getElementById('mainNav');if(n){const o=()=>n.classList.toggle('scrolled',window.scrollY>50);window.addEventListener('scroll',o,{passive:true});o();}document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='certificates.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
-  fetch('components/footer.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
-  
+  loadComponent('nav-placeholder', 'components/nav.html');
+  loadComponent('footer-placeholder', 'components/footer.html');
+
   // Initialize Boxicons
-  boxicons.init();
+  if (typeof boxicons !== 'undefined') boxicons.init();
 </script>
+
 </body>
 </html>

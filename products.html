@@ -96,13 +96,16 @@
 .enquiry-cta p { font-size:15px; color:rgba(250,247,242,0.7); margin-top:12px; }
 
 @media (max-width:860px) {
-  .filter-bar { padding:32px 20px 0; flex-direction:column; align-items:flex-start; }
+  .filter-bar { padding:32px 20px 16px; flex-direction:column; align-items:center; text-align:center; }
+  .filter-tabs { justify-content:center; }
   .products-wrap { padding:32px 20px 70px; }
-  .products-grid { grid-template-columns:1fr; }
-  .product-card.featured { flex-direction:column; grid-column:auto; }
-  .product-card.featured .product-img { width:100%; height:240px; }
-  .enquiry-cta { grid-template-columns:1fr; padding:60px 20px; }
+  .products-grid { grid-template-columns:1fr; gap:32px; }
+  .product-card { min-height: auto; }
+  .product-img { aspect-ratio: 16 / 9; }
+  .enquiry-cta { grid-template-columns:1fr; padding:60px 20px; text-align:center; gap:32px; }
+  .enquiry-cta .btn-primary { margin: 0 auto; }
 }
+
 
 /* QUOTATION MODAL */
 .quotation-modal {
@@ -321,7 +324,15 @@
   .modal-content h3 {
     font-size: 24px;
   }
+
+  .fab-quote {
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    font-size: 11px;
+  }
 }
+
 </style>
 </head>
 <body>
@@ -670,11 +681,11 @@
 </script>
 
 <script>
-  fetch('components/nav.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('nav-placeholder').outerHTML=h;const s=document.createElement('script');s.textContent=`document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.nav-links a').forEach(a=>{if(a.getAttribute('href')==='products.html')a.classList.add('active');});const b=document.getElementById('navBurger');const d=document.getElementById('mobileDrawer');if(b&&d){b.addEventListener('click',()=>{const op=d.classList.toggle('open');d.style.display=op?'flex':'none';document.body.style.overflow=op?'hidden':'';});d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{d.classList.remove('open');d.style.display='none';document.body.style.overflow='';}));}})`;document.head.appendChild(s);});
-  fetch('components/footer.html?v=1773426592').then(r=>r.text()).then(h=>{document.getElementById('footer-placeholder').outerHTML=h;});
-  
+  loadComponent('nav-placeholder', 'components/nav.html');
+  loadComponent('footer-placeholder', 'components/footer.html');
+
   // Initialize Boxicons
-  boxicons.init();
+  if (typeof boxicons !== 'undefined') boxicons.init();
 </script>
 </body>
 </html>

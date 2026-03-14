@@ -153,17 +153,22 @@
 .commitment-strip h2 em { font-style: italic; color: var(--gold); }
 
 @media (max-width: 1024px) {
-  .reasons-grid { grid-template-columns: 1fr; }
-  .quality-assurance { grid-template-columns: 1fr; gap: 50px; }
-  .qa-img-wrap { height: 350px; }
+  .reasons-grid { grid-template-columns: 1fr; gap:24px; }
+  .quality-assurance { grid-template-columns: 1fr; gap:50px; text-align:center; }
+  .qa-content { align-items:center; display:flex; flex-direction:column; }
+  .qa-list { text-align:left; }
+  .qa-img-wrap { height:400px; width:100%; max-width:600px; margin:0 auto; }
 }
 
 @media (max-width: 600px) {
   .reasons, .quality-assurance, .commitment-strip { padding: 70px 20px; }
-  .reason-card { padding: 30px; flex-direction: column; gap: 20px; }
-  .qa-badge { width: 100px; height: 100px; padding: 20px; top: -15px; right: -15px; }
-  .qa-badge .num { font-size: 24px; }
+  .reason-card { padding: 32px 24px; flex-direction: column; gap: 24px; align-items: center; text-align: center; }
+  .qa-badge { width: 110px; height: 110px; padding: 15px; top: -20px; right: -10px; }
+  .qa-badge .num { font-size: 26px; }
+  .qa-img-wrap { height: 320px; }
+  .commitment-strip h2 { font-size: 28px; line-height: 1.3; }
 }
+
 </style>
 </head>
 <body>
@@ -269,39 +274,9 @@
 
 <script src="js/main.js"></script>
 <script>
-  fetch('components/nav.html?v=1773426592').then(r=>r.text()).then(h=>{
-    document.getElementById('nav-placeholder').outerHTML=h;
-    const s=document.createElement('script');
-    s.textContent=`document.addEventListener('DOMContentLoaded',()=>{
-      const n=document.getElementById('mainNav');
-      if(n){
-        const o=()=>n.classList.toggle('scrolled',window.scrollY>50);
-        window.addEventListener('scroll',o,{passive:true});
-        o();
-      }
-      document.querySelectorAll('.nav-links a').forEach(a=>{
-        if(a.getAttribute('href')==='why-choose-us.html')a.classList.add('active');
-      });
-      const b=document.getElementById('navBurger');
-      const d=document.getElementById('mobileDrawer');
-      if(b&&d){
-        b.addEventListener('click',()=>{
-          const op=d.classList.toggle('open');
-          d.style.display=op?'flex':'none';
-          document.body.style.overflow=op?'hidden':'';
-        });
-        d.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-          d.classList.remove('open');
-          d.style.display='none';
-          document.body.style.overflow='';
-        }));
-      }
-    })`;
-    document.head.appendChild(s);
-  });
-  fetch('components/footer.html?v=1773426592').then(r=>r.text()).then(h=>{
-    document.getElementById('footer-placeholder').outerHTML=h;
-  });
+  loadComponent('nav-placeholder', 'components/nav.html');
+  loadComponent('footer-placeholder', 'components/footer.html');
 </script>
+
 </body>
 </html>
