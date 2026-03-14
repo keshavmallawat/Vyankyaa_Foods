@@ -1,5 +1,4 @@
-import { db, auth, collection, getDocs, query, orderBy, signInWithEmailAndPassword, onAuthStateChanged, signOut } from './firebase-config.js';
-import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { db, auth, collection, getDocs, query, orderBy, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, updateDoc, deleteDoc } from './firebase-config.js';
 import { fetchAllProducts, saveProduct as fsaveProduct, deleteProductById, updateProductStatus } from './products-service.js';
 
 // ════════════════════════════════════════════════
@@ -590,13 +589,19 @@ document.getElementById('btnConfirmDelete')?.addEventListener('click', () => {
 
 function confirmDeleteItem(id, coll) {
   pendingDeleteFn = async () => {
-    window.enquiriesData = window.enquiriesData.filter(i => !(i.id === id && i.collection === coll));
-    window._itemStore = [];
-    window.enquiriesData.forEach(item => storeItem(item));
-    updateStats(); updateBadge(); filterAndRender();
-    renderRecentTable(window.enquiriesData.slice(0, 6));
-    closeModal('deleteModal');
-    window.showToast('Record archived', 'success');
+    try {
+      await deleteDoc(doc(db, coll, id));
+      window.enquiriesData = window.enquiriesData.filter(i => !(i.id === id && i.collection === coll));
+      window._itemStore = [];
+      window.enquiriesData.forEach(item => storeItem(item));
+      updateStats(); updateBadge(); filterAndRender();
+      renderRecentTable(window.enquiriesData.slice(0, 6));
+      closeModal('deleteModal');
+      window.showToast('Record deleted permanently', 'success');
+    } catch(e) {
+      console.error('Delete failed:', e);
+      window.showToast('Error: Delete failed', 'error');
+    }
   };
   openModal('deleteModal');
 }
