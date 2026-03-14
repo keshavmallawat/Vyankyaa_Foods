@@ -17,7 +17,7 @@
 .hero {
   min-height: 100vh;
   display: grid; grid-template-columns: 1fr 1fr;
-  align-items: center; gap: 48px;
+  align-items: center; gap: 60px;
   padding: 130px 60px 80px;
   position: relative; overflow: hidden;
 }
@@ -61,44 +61,46 @@
   opacity:0; animation: fadeUp 0.9s 0.8s ease forwards;
 }
 .hero-right {
-  position:relative; height:560px;
+  position:relative; height:600px;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 24px; perspective: 1500px;
   opacity:0; animation: fadeIn 1.2s 0.5s ease forwards;
 }
-.hero-img-main {
-  position:absolute; top:0; right:0;
-  width:74%; height:420px; border-radius:4px; overflow:hidden;
-  background:linear-gradient(135deg,#8B4A2B 0%,#C9973A 50%,#6B7C5C 100%);
+
+/* TILE WALL */
+.hero-tile {
+  position: relative; width: 100%; height: 260px;
+  transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
-.hero-img-main .img-inner {
-  width:100%; height:100%;
-  background:url('images/hero_landscape.png') center/cover;
-  opacity:0.95;
-  transition:transform 8s ease;
+.hero-tile:hover { transform: rotateY(180deg); }
+.hero-tile:nth-child(2), .hero-tile:nth-child(4) { margin-top: 32px; }
+.tile-front, .tile-back {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  border-radius: 4px; overflow: hidden;
+  box-shadow: 0 12px 40px rgba(44,26,14,0.12);
 }
-.hero-img-main:hover .img-inner { transform:scale(1.05); }
-.hero-img-secondary {
-  position:absolute; bottom:0; left:0;
-  width:50%; height:268px; border-radius:4px; overflow:hidden;
-  box-shadow:0 20px 60px rgba(44,26,14,0.18);
+.tile-front img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile-back {
+  background: var(--earth); transform: rotateY(180deg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px; text-align: center; color: var(--cream);
 }
-.hero-img-secondary .img-inner {
-  width:100%; height:100%;
-  background:url('images/hero_produce.png') center/cover;
-  transition:transform 8s ease;
-}
-.hero-img-secondary:hover .img-inner { transform:scale(1.06); }
+.tile-back p { font-family: 'Cormorant Garamond'; font-size: 19px; font-style: italic; line-height: 1.4; }
+.tile-back .icon { font-size: 24px; color: var(--gold); margin-bottom: 12px; }
+
 .hero-stat {
-  position:absolute; bottom:50px; right:6px;
+  position:absolute; bottom:-10px; right:10%;
   background:var(--warm-white); padding:18px 24px;
   border-radius:4px; box-shadow:0 8px 40px rgba(44,26,14,0.12);
-  text-align:center; z-index:2;
+  text-align:center; z-index:10;
 }
 .hero-stat .num {
-  font-family:'Bebas Neue'; font-size:40px; color:var(--gold);
+  font-family:'Bebas Neue'; font-size:36px; color:var(--gold);
   display:block; line-height:1;
 }
 .hero-stat .lbl {
-  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  font-size:9px; letter-spacing:2px; text-transform:uppercase;
   color:var(--light-text); margin-top:4px; display:block;
 }
 
@@ -255,10 +257,11 @@
   .hero-title { font-size:clamp(44px,10vw,72px); line-height:1.1; }
   .hero-desc { margin:0 auto 32px; }
   .hero-actions { justify-content:center; width:100%; }
-  .hero-right { height:360px; width:100%; max-width:500px; margin:0 auto; }
-  .hero-img-main { width:80%; height:260px; }
-  .hero-img-secondary { width:56%; height:200px; }
-  .hero-stat { bottom:10px; right:10px; padding:14px 20px; }
+  .hero-right { height:auto; width:100%; max-width:500px; margin:0 auto; gap: 16px; }
+  .hero-tile { height: 180px; }
+  .hero-tile:nth-child(2), .hero-tile:nth-child(4) { margin-top: 0; }
+  .tile-back p { font-size: 15px; }
+  .hero-stat { bottom:-15px; right:50%; transform: translateX(50%); width: max-content; }
   .hero-stat .num { font-size:32px; }
   .about-preview { grid-template-columns:1fr; padding:70px 20px; gap:44px; }
   .about-img-wrap { height:360px; }
@@ -306,8 +309,39 @@
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-img-main"><div class="img-inner"></div></div>
-    <div class="hero-img-secondary"><div class="img-inner"></div></div>
+    <!-- TILE 1 -->
+    <div class="hero-tile">
+      <div class="tile-front"><img src="images/hero_landscape.png" alt="Indian Fields"/></div>
+      <div class="tile-back">
+        <div class="icon"><i class='bx bx-leaf'></i></div>
+        <p>"Rooted in the fertile soil of Maharashtra's agricultural heartlands."</p>
+      </div>
+    </div>
+    <!-- TILE 2 -->
+    <div class="hero-tile">
+      <div class="tile-front"><img src="images/hero_produce.png" alt="Pure Grains"/></div>
+      <div class="tile-back">
+        <div class="icon"><i class='bx bxs-award'></i></div>
+        <p>"Handpicked for global excellence and certified purity."</p>
+      </div>
+    </div>
+    <!-- TILE 3 -->
+    <div class="hero-tile">
+      <div class="tile-front"><img src="images/tile_farmers.png" alt="Our Farmers"/></div>
+      <div class="tile-back">
+        <div class="icon"><i class='bx bxs-user-voice'></i></div>
+        <p>"Empowering 200+ local farming partners through fair trade."</p>
+      </div>
+    </div>
+    <!-- TILE 4 -->
+    <div class="hero-tile">
+      <div class="tile-front"><img src="images/tile_spices.png" alt="Exotic Spices"/></div>
+      <div class="tile-back">
+        <div class="icon"><i class='bx bx-globe'></i></div>
+        <p>"India's finest flavors, delivered to 50+ nations worldwide."</p>
+      </div>
+    </div>
+
     <div class="hero-stat">
       <span class="num">50+</span>
       <span class="lbl">Countries Served</span>
