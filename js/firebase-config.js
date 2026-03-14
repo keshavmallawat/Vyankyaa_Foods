@@ -1,12 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { 
   getFirestore, collection, addDoc, getDocs, query, orderBy, limit, 
-  serverTimestamp, doc, updateDoc, setDoc, deleteDoc, getDoc, writeBatch,
-  enableIndexedDbPersistence, enableMultiTabIndexedDbPersistence 
+  serverTimestamp, doc, updateDoc, setDoc, deleteDoc, getDoc, writeBatch
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-// Your web app's Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBu4MvRWhQuPaR9BmP0B-FCb6DISQ7P1YY",
   authDomain: "vyankyaa-foods.firebaseapp.com",
@@ -17,23 +16,18 @@ const firebaseConfig = {
   measurementId: "G-45SB1V576F"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db  = getFirestore(app);
-const auth = getAuth(app);
-
-// Enable Offline Persistence for faster subsequent loads
+// Initialize Firebase (guard against duplicate init across modules)
+let app;
 try {
-  enableMultiTabIndexedDbPersistence(db).catch((err) => {
-    if (err.code === 'failed-precondition') {
-      console.warn('Persistence failed: multiple tabs open');
-    } else if (err.code === 'unimplemented') {
-      console.warn('Persistence not supported by browser');
-    }
-  });
+  app = initializeApp(firebaseConfig);
 } catch (e) {
-  console.error('Error enabling Firestore persistence:', e);
+  // App already initialized — get existing instance
+  const { getApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
+  app = getApp();
 }
+
+const db   = getFirestore(app, "vyankyaa-quotations");
+const auth = getAuth(app);
 
 // Export for use in other scripts
 export { db, auth, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, updateDoc, setDoc, deleteDoc, getDoc, writeBatch };
