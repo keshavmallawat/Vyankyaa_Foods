@@ -1,5 +1,6 @@
 import { db, auth, collection, getDocs, query, orderBy, signInWithEmailAndPassword, onAuthStateChanged, signOut, doc, updateDoc, deleteDoc, storage, ref, uploadBytesResumable, getDownloadURL } from './firebase-config.js';
 import { fetchAllProducts, sortProducts, saveProduct as fsaveProduct, deleteProductById, updateProductStatus } from './products-service.js';
+window.fsaveProduct = fsaveProduct;
 
 // ════════════════════════════════════════════════
 // Bhavya Agro ADMIN — COMPLETE INTERACTION ENGINE
