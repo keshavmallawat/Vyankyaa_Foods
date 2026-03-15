@@ -202,7 +202,7 @@ window.VF = {
       {
         name: 'APEDA Registration',
         authority: 'Agricultural & Processed Food Products Export Development Authority',
-        description: 'Vyankyaa Foods is a registered exporter under APEDA, authorising us to export scheduled agricultural and processed food products from India to global markets.',
+        description: 'Bhavya Agro Exports is a registered exporter under APEDA, authorising us to export scheduled agricultural and processed food products from India to global markets.',
         badgeText: 'Govt. of India',
         icon: '🏆',
         validUntil: '',
@@ -321,12 +321,12 @@ window.VF = {
     
     // Settings
     const settings = {
-      companyName: 'Vyankyaa Foods',
+      companyName: 'Bhavya Agro Exports',
       tagline: 'Exporting India\'s Best Flavors',
       phone: '+91 91301 11989',
-      email: 'namaste.vyankyaafoods@gmail.com',
+      email: 'namaste.bhavyaagroexports@gmail.com',
       address: 'Degloor, Dist. Nanded, Maharashtra — 431717, India',
-      website: 'https://www.vyankyaafoods.com',
+      website: 'https://www.bhavyaagroexports.com',
       adminName: 'Baalaje V. Kadaam',
       username: 'admin',
       password: 'admin123',

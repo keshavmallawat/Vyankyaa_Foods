@@ -9,9 +9,9 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://w
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBu4MvRWhQuPaR9BmP0B-FCb6DISQ7P1YY",
-  authDomain: "vyankyaa-foods.firebaseapp.com",
-  projectId: "vyankyaa-foods",
-  storageBucket: "vyankyaa-foods.firebasestorage.app",
+  authDomain: "bhavya-agro-exports.firebaseapp.com",
+  projectId: "bhavya-agro-exports",
+  storageBucket: "bhavya-agro-exports.firebasestorage.app",
   messagingSenderId: "468738165745",
   appId: "1:468738165745:web:8de582791b376ab0071250",
   measurementId: "G-45SB1V576F"
@@ -27,7 +27,7 @@ try {
   app = getApp();
 }
 
-const db   = getFirestore(app, "vyankyaa-quotations");
+const db   = getFirestore(app, "bhavya-agro-exports-quotes");
 const auth = getAuth(app);
 const storage = getStorage(app);
 

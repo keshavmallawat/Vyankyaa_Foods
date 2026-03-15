@@ -2,7 +2,7 @@ import { db, auth, collection, getDocs, query, orderBy, signInWithEmailAndPasswo
 import { fetchAllProducts, sortProducts, saveProduct as fsaveProduct, deleteProductById, updateProductStatus } from './products-service.js';
 
 // ════════════════════════════════════════════════
-// VYANKYAA ADMIN — COMPLETE INTERACTION ENGINE
+// Bhavya Agro ADMIN — COMPLETE INTERACTION ENGINE
 // ════════════════════════════════════════════════
 
 window.firebaseSignOut = () => signOut(auth);
@@ -1155,8 +1155,8 @@ window.saveNote = function() {
 // ════════════════════════════════════════════════
 function doReply(email, name, subject) {
   if (!email) { window.showToast('No email address found', 'error'); return; }
-  const sub  = encodeURIComponent(`Re: ${subject||'Your Enquiry'} — Vyankyaa Foods`);
-  const body = encodeURIComponent(`Dear ${name||'Customer'},\n\nThank you for reaching out to Vyankyaa Foods.\n\nBest regards,\nVyankyaa Foods Team`);
+  const sub  = encodeURIComponent(`Re: ${subject||'Your Enquiry'} — Bhavya Agro Exports`);
+  const body = encodeURIComponent(`Dear ${name||'Customer'},\n\nThank you for reaching out to Bhavya Agro Exports.\n\nBest regards,\nBhavya Agro Exports Team`);
   window.open(`mailto:${email}?subject=${sub}&body=${body}`, '_blank');
   window.showToast('Email client opened', 'info');
 }
@@ -1211,8 +1211,8 @@ window.sendQuotation = function() {
   const notes   = document.getElementById('qNotes')?.value || '';
   if (!email || !product) { window.showToast('Email and product name are required', 'error'); return; }
   const total = (qty && price) ? `\nTotal Estimate: ₹${(qty * price).toLocaleString('en-IN')}` : '';
-  const body  = encodeURIComponent(`Dear Customer,\n\nThank you for your enquiry with Vyankyaa Foods.\n\nQUOTATION DETAILS:\nProduct: ${product}\nQuantity: ${qty||'TBD'} MT\nPrice/MT: ₹${price||'TBD'}${total}\n\n${notes}\n\nValid for 7 days. GST extra.\n\nBest regards,\nVyankyaa Foods Export Division\ncertifications@vyankyaafoods.com`);
-  const sub   = encodeURIComponent(`Quotation: ${product} — Vyankyaa Foods`);
+  const body  = encodeURIComponent(`Dear Customer,\n\nThank you for your enquiry with Bhavya Agro Exports.\n\nQUOTATION DETAILS:\nProduct: ${product}\nQuantity: ${qty||'TBD'} MT\nPrice/MT: ₹${price||'TBD'}${total}\n\n${notes}\n\nValid for 7 days. GST extra.\n\nBest regards,\nBhavya Agro Exports Export Division\ncertifications@bhavyaagroexports.com`);
+  const sub   = encodeURIComponent(`Quotation: ${product} — Bhavya Agro Exports`);
   window.open(`mailto:${email}?subject=${sub}&body=${body}`, '_blank');
   closeModal('quoteModal');
   window.showToast('Quotation email prepared!', 'success');
@@ -1285,7 +1285,7 @@ window.generateReport = function() {
   const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = `vyankyaa-enquiries-${Date.now()}.csv`;
+  a.download = `Bhavya Agro-enquiries-${Date.now()}.csv`;
   a.click();
   window.showToast('CSV downloaded!', 'success');
 };
