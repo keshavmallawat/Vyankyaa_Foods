@@ -26,10 +26,12 @@
 
 /* HERO */
 .hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-start;
-  padding: 140px 0 0;
+  min-height: 75vh;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  align-items: center;
+  padding: 80px 80px 40px;
+  gap: 60px;
   position: relative; overflow: hidden;
   background: var(--cream);
 }
@@ -39,9 +41,9 @@
   pointer-events:none;
 }
 .hero-left {
-  display:flex; flex-direction:column; align-items:center;
-  position:relative; z-index:10; text-align: center;
-  margin-bottom: 60px; padding: 0 40px;
+  display:flex; flex-direction:column; align-items:flex-start;
+  position:relative; z-index:10; text-align: left;
+  padding: 0;
 }
 .hero-badge {
   display:inline-flex; align-items:center; gap:10px;
@@ -70,65 +72,51 @@
   opacity:0; animation: fadeUp 0.9s 0.6s ease forwards;
 }
 .hero-actions {
-  display:flex; align-items:center; gap:28px; justify-content: center;
+  display:flex; align-items:center; gap:28px; justify-content: flex-start;
   opacity:0; animation: fadeUp 0.9s 0.8s ease forwards;
 }
 .hero-right {
   position:relative; width: 100%;
-  height: 600px; overflow: hidden;
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 20px; padding: 0 40px;
+  height: 580px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  gap: 15px;
   perspective: 2000px;
   opacity:0; animation: fadeIn 1.5s 0.8s ease forwards;
 }
-.hero-right::after {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(to bottom, var(--cream) 0%, transparent 15%, transparent 85%, var(--cream) 100%);
-  pointer-events: none; z-index: 5;
+
+.collage-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(44,26,14,0.12);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* CONTINUOUS MARQUEE COLS */
-.tile-col {
-  display: flex; flex-direction: column; gap: 20px;
-}
-.tile-track {
-  display: flex; flex-direction: column; gap: 20px;
-  will-change: transform; animation-duration: 40s;
-  animation-iteration-count: infinite; animation-timing-function: linear;
-}
-.tile-col.down .tile-track { animation-name: scrollDown; }
-.tile-col.up .tile-track { animation-name: scrollUp; }
-.hero-right:hover .tile-track { animation-play-state: paused; }
-
-@keyframes scrollUp {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
-}
-@keyframes scrollDown {
-  0% { transform: translateY(-50%); }
-  100% { transform: translateY(0); }
+.collage-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  z-index: 15;
+  box-shadow: 0 20px 50px rgba(44,26,14,0.2);
 }
 
-.hero-tile {
-  position: relative; width: 100%; height: 280px;
-  transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer; flex-shrink: 0;
+.collage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
-.hero-tile:hover { transform: rotateY(180deg); }
 
-.tile-front, .tile-back {
-  position: absolute; inset: 0; backface-visibility: hidden;
-  border-radius: 4px; overflow: hidden;
-  box-shadow: 0 10px 30px rgba(44,26,14,0.1);
-}
-.tile-front img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.tile-back {
-  background: var(--earth); transform: rotateY(180deg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 16px; text-align: center; color: var(--cream);
-}
-.tile-back p { font-family: 'Cormorant Garamond'; font-size: 16px; font-style: italic; line-height: 1.4; }
-.tile-back .icon { font-size: 20px; color: var(--gold); margin-bottom: 8px; }
+/* Collage Positions */
+.item-1 { grid-column: 1 / span 6; grid-row: 1 / span 6; }
+.item-2 { grid-column: 7 / span 3; grid-row: 1 / span 5; }
+.item-3 { grid-column: 10 / span 3; grid-row: 1 / span 6; }
+.item-4 { grid-column: 7 / span 3; grid-row: 6 / span 3; }
+.item-5 { grid-column: 1 / span 4; grid-row: 7 / span 6; }
+.item-6 { grid-column: 5 / span 4; grid-row: 9 / span 4; }
+.item-7 { grid-column: 10 / span 3; grid-row: 7 / span 4; }
+.item-8 { grid-column: 5 / span 2; grid-row: 7 / span 2; }
+.item-9 { grid-column: 9 / span 4; grid-row: 11 / span 2; }
 
 
 /* ABOUT PREVIEW */
@@ -278,12 +266,26 @@
 .test-role { font-size:12px; color:rgba(250,247,242,0.5); margin-top:2px; }
 
 /* MOBILE */
+@media (max-width:768px) {
+  .hero { 
+    grid-template-columns: 1fr;
+    padding: 120px 20px 60px;
+    text-align: center;
+    gap: 40px;
+  }
+  .hero-left {
+    align-items: center;
+    text-align: center;
+  }
+  .hero-actions {
+    justify-content: center;
+  }
+  .hero-right {
+    height: 450px;
+    padding: 0;
+  }
+}
 @media (max-width:860px) {
-  .hero { padding-top: 120px; }
-  .hero-right { grid-template-columns: repeat(2, 1fr); height: 500px; padding: 0 20px; }
-  .tile-col:nth-child(3), .tile-col:nth-child(4) { display: none; }
-  .hero-tile { height: 220px; }
-  .tile-back p { font-size: 14px; }
   .about-preview { grid-template-columns:1fr; padding:70px 20px; gap:44px; }
   .about-img-wrap { height:360px; }
   .feat-cats-grid { grid-template-columns:1fr; }
@@ -297,13 +299,13 @@
   .test-grid { grid-template-columns:1fr; }
 }
 @media (max-width:600px) {
+  .hero-right { height: 350px; }
   .hero-actions { flex-direction:column; align-items:stretch; }
   .hero-actions .btn-primary { width:100%; text-align:center; }
   .hero-actions .btn-text { justify-content:center; margin-top:8px; }
 }
 @media (max-width:480px) {
   .hero-title { font-size:clamp(40px,12vw,56px); }
-  .hero-right { height:auto; }
   .about-stats { grid-template-columns:1fr; gap:32px; text-align:center; }
   .process-steps { grid-template-columns:1fr; gap:28px; }
 }
@@ -330,61 +332,32 @@
     </div>
   </div>
   <div class="hero-right">
-    <!-- COLUMN 1: DOWN -->
-    <div class="tile-col down">
-      <div class="tile-track">
-        <div class="hero-tile"><div class="tile-front"><img src="images/hero_landscape.png" alt="Indian Farm Fields"/></div><div class="tile-back"><div class="icon"><i class='bx bx-landscape'></i></div><p>"Rooted in Maharashtra's fertile soil."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_spices.png" alt="Indian Spices"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-hot'></i></div><p>"Authentic Indian spices & masalas."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/hero_produce.png" alt="Agriculture Produce"/></div><div class="tile-back"><div class="icon"><i class='bx bx-leaf'></i></div><p>"Modernizing traditional farming."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_farmers.png" alt="Farmer in Field"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-tree'></i></div><p>"Cultivated with passion since legacy."</p></div></div>
-        <!-- Duplicates -->
-        <div class="hero-tile"><div class="tile-front"><img src="images/hero_landscape.png" alt="Indian Farm Fields"/></div><div class="tile-back"><div class="icon"><i class='bx bx-landscape'></i></div><p>"Rooted in Maharashtra's fertile soil."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_spices.png" alt="Indian Spices"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-hot'></i></div><p>"Authentic Indian spices & masalas."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/hero_produce.png" alt="Agriculture Produce"/></div><div class="tile-back"><div class="icon"><i class='bx bx-leaf'></i></div><p>"Modernizing traditional farming."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_farmers.png" alt="Farmer in Field"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-tree'></i></div><p>"Cultivated with passion since legacy."</p></div></div>
-      </div>
+    <div class="collage-item item-1 reveal">
+      <img src="images/hero_landscape.png" alt="Indian Farm Fields"/>
     </div>
-    <!-- COLUMN 2: UP -->
-    <div class="tile-col up">
-      <div class="tile-track">
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_oil.png" alt="Edible Oil Production"/></div><div class="tile-back"><div class="icon"><i class='bx bx-droplet'></i></div><p>"Purest Sunflower & Safflower Oils."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_sugar.png" alt="Refined Sugar Crystals"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-cube-alt'></i></div><p>"Crystalline Grade Refined Sugar."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/quality_qa.png" alt="Quality Selection Grains"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-check-shield'></i></div><p>"Strict 100% Quality Inspections."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/safflower-oil.jpg" alt="Pulses and Dal"/></div><div class="tile-back"><div class="icon"><i class='bx bx-grid-alt'></i></div><p>"Vast selection of fresh pulses."</p></div></div>
-        <!-- Duplicates -->
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_oil.png" alt="Edible Oil Production"/></div><div class="tile-back"><div class="icon"><i class='bx bx-droplet'></i></div><p>"Purest Sunflower & Safflower Oils."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_sugar.png" alt="Refined Sugar Crystals"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-cube-alt'></i></div><p>"Crystalline Grade Refined Sugar."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/quality_qa.png" alt="Quality Selection Grains"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-check-shield'></i></div><p>"Strict 100% Quality Inspections."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/safflower-oil.jpg" alt="Pulses and Dal"/></div><div class="tile-back"><div class="icon"><i class='bx bx-grid-alt'></i></div><p>"Vast selection of fresh pulses."</p></div></div>
-      </div>
+    <div class="collage-item item-2 reveal reveal-delay-1">
+      <img src="images/tile_spices.png" alt="Indian Spices"/>
     </div>
-    <!-- COLUMN 3: DOWN -->
-    <div class="tile-col down">
-      <div class="tile-track">
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_rice.png" alt="Long Grain Basmati Rice"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-bowl-rice'></i></div><p>"India's finest Basmati varieties."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/about-heritage.png" alt="Supporting Local Farmers"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-hand-up'></i></div><p>"Partnering with 200+ local farmers."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_wheat.png" alt="Golden Wheat Grains"/></div><div class="tile-back"><div class="icon"><i class='bx bx-sun'></i></div><p>"Golden-harvest premium wheat."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/gehu.jpg" alt="Wholesale Agri Market"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-store'></i></div><p>"Bridging Indian fields to global markets."</p></div></div>
-        <!-- Duplicates -->
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_rice.png" alt="Long Grain Basmati Rice"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-bowl-rice'></i></div><p>"India's finest Basmati varieties."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/about-heritage.png" alt="Supporting Local Farmers"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-hand-up'></i></div><p>"Partnering with 200+ local farmers."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_wheat.png" alt="Golden Wheat Grains"/></div><div class="tile-back"><div class="icon"><i class='bx bx-sun'></i></div><p>"Golden-harvest premium wheat."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/gehu.jpg" alt="Wholesale Agri Market"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-store'></i></div><p>"Bridging Indian fields to global markets."</p></div></div>
-      </div>
+    <div class="collage-item item-3 reveal reveal-delay-2">
+      <img src="images/tile_oil.png" alt="Edible Oil Production"/>
     </div>
-    <!-- COLUMN 4: UP -->
-    <div class="tile-col up">
-      <div class="tile-track">
-        <div class="hero-tile"><div class="tile-front"><img src="images/export_logistics.png" alt="Cargo Ship Logistics"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-ship'></i></div><p>"Seamless delivery across 5 continents."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_cake.png" alt="Oil Cake Feed Production"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-industry'></i></div><p>"Premium Seed Cakes for animal feed."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/certification-hero.png" alt="Modern Warehousing"/></div><div class="tile-back"><div class="icon"><i class='bx bx-building-house'></i></div><p>"Advanced hygienic warehousing."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_logistics.png" alt="Logistics Freight Truck"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-truck'></i></div><p>"Rapid, reliable freight logistics."</p></div></div>
-        <!-- Duplicates -->
-        <div class="hero-tile"><div class="tile-front"><img src="images/export_logistics.png" alt="Cargo Ship Logistics"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-ship'></i></div><p>"Seamless delivery across 5 continents."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_cake.png" alt="Oil Cake Feed Production"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-industry'></i></div><p>"Premium Seed Cakes for animal feed."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/certification-hero.png" alt="Modern Warehousing"/></div><div class="tile-back"><div class="icon"><i class='bx bx-building-house'></i></div><p>"Advanced hygienic warehousing."</p></div></div>
-        <div class="hero-tile"><div class="tile-front"><img src="images/tile_logistics.png" alt="Logistics Freight Truck"/></div><div class="tile-back"><div class="icon"><i class='bx bxs-truck'></i></div><p>"Rapid, reliable freight logistics."</p></div></div>
-      </div>
+    <div class="collage-item item-4 reveal reveal-delay-1">
+      <img src="images/tile_sugar.png" alt="Refined Sugar Crystals"/>
+    </div>
+    <div class="collage-item item-5 reveal reveal-delay-2">
+      <img src="images/hero_produce.png" alt="Agriculture Produce"/>
+    </div>
+    <div class="collage-item item-6 reveal reveal-delay-1">
+      <img src="images/tile_farmers.png" alt="Farmer in Field"/>
+    </div>
+    <div class="collage-item item-7 reveal reveal-delay-2">
+      <img src="images/tile_wheat.png" alt="Golden Wheat Grains"/>
+    </div>
+    <div class="collage-item item-8 reveal reveal-delay-3">
+      <img src="images/tile_rice.png" alt="Long Grain Basmati Rice"/>
+    </div>
+    <div class="collage-item item-9 reveal reveal-delay-4">
+      <img src="images/quality_qa.png" alt="Quality Inspection"/>
     </div>
   </div>
 </section>

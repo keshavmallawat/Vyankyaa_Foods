@@ -131,22 +131,7 @@
 .mission-card h4 { font-family:'Cormorant Garamond'; font-size:24px; font-weight:400; margin-bottom:14px; }
 .mission-card p { font-size:14px; line-height:1.75; color:var(--light-text); }
 
-/* GALLERY */
-.gallery {
-  padding:0 60px 100px;
-  display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:280px 280px; gap:10px;
-}
-.gallery-item { overflow:hidden; border-radius:4px; position:relative; cursor:default; }
-.gallery-item:first-child { grid-row:span 2; }
-.gallery-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.7s ease; }
-.gallery-item:hover img { transform:scale(1.06); }
-.gallery-item .overlay {
-  position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(44,26,14,0.55) 0%, transparent 55%);
-  opacity:0; transition:opacity 0.4s; display:flex; align-items:flex-end; padding:18px 20px;
-}
-.gallery-item:hover .overlay { opacity:1; }
-.overlay-text { font-family:'Cormorant Garamond'; font-size:17px; color:var(--cream); font-style:italic; }
+
 
 @media (max-width:860px) {
   .story { grid-template-columns:1fr; padding:70px 20px; gap:44px; text-align:center; }
@@ -162,9 +147,7 @@
   .mission { padding:70px 20px; }
   .mission-grid { grid-template-columns:1fr; }
   .mission-card { grid-template-columns: 1fr !important; gap: 24px; }
-  .gallery { padding:0 20px 70px; grid-template-columns:1fr 1fr; grid-template-rows:auto; }
-  .gallery-item:first-child { grid-row:auto; grid-column:span 2; height:240px; }
-  .gallery-item { height:180px; }
+
 }
 @media (max-width:600px) {
   .stats-strip { grid-template-columns: 1fr; }
@@ -317,14 +300,7 @@
   </div>
 </section>
 
-<!-- GALLERY -->
-<div class="gallery">
-  <div class="gallery-item reveal"><img src="https://images.unsplash.com/photo-1589313331637-fa8ceb1fac0d?w=600&q=75" alt="Farm" width="600" height="280" loading="lazy"/><div class="overlay"><span class="overlay-text">Where it begins</span></div></div>
-  <div class="gallery-item reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1639941798780-04529d362f9a?w=600&q=75" alt="Harvest" width="600" height="280" loading="lazy"/><div class="overlay"><span class="overlay-text">Harvest season</span></div></div>
-  <div class="gallery-item reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1723155182094-af2f63472d0b?w=600&q=75" alt="Spices" width="600" height="280" loading="lazy"/><div class="overlay"><span class="overlay-text">Nature's palette</span></div></div>
-  <div class="gallery-item reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1740914994657-f1cdffdc418e?w=600&q=75" alt="Packing" width="600" height="280" loading="lazy"/><div class="overlay"><span class="overlay-text">Ready to travel</span></div></div>
-  <div class="gallery-item reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1596434220574-9af8bf9a0891?w=600&q=75" alt="Global" width="600" height="280" loading="lazy"/><div class="overlay"><span class="overlay-text">World-bound</span></div></div>
-</div>
+
 
 <div id="footer-placeholder"></div>
 <script src="js/main.js"></script>
